@@ -1,6 +1,8 @@
 package com.example.pizzaspringboot.controller;
 
 import com.example.pizzaspringboot.Pizza;
+import com.example.pizzaspringboot.service.PizzaService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,52 +12,38 @@ import java.util.Arrays;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/v1")
 public class PizzaController {
 
-    List<Pizza> pizzas = new ArrayList<>(Arrays.asList(
-            new Pizza(0, "Chicken Ranch"),
-            new Pizza(1, "Chicken BBQ")
-    ));
+    @Autowired
+    private final PizzaService pizzaService;
 
-    @GetMapping("/pizza/getAllPizzas")
+    public PizzaController(PizzaService pizzaService) {
+        this.pizzaService = pizzaService;
+    }
+
+    @GetMapping("/pizzas")
     public List<Pizza> getAllPizzas() {
-        return pizzas;
+        return pizzaService.getAllPizzas();
     }
 
-    @GetMapping("/pizza/getPizzaWithId/{id}")
+    @GetMapping("/pizzas/{id}")
     public Pizza getPizzaWithId(@PathVariable int id) {
-        return pizzas.get(id);
+        return pizzaService.getPizzaWithId(id);
     }
 
-    @PostMapping("/pizza/add")
+    @PostMapping("/pizzas")
     public ResponseEntity<?> addPizza(@RequestBody Pizza pizza) {
-        if (!pizzas.contains(pizza)) {
-            pizzas.add(pizza);
-            return ResponseEntity.ok(pizza);
-        }
-        else
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(pizza.getDressing() + " already exists.");
+        return pizzaService.addPizza(pizza);
     }
 
-    @PutMapping("/pizza/update/{id}")
+    @PutMapping("/pizzas/{id}")
     public ResponseEntity<?> updatePizza(@PathVariable int id, @RequestBody Pizza updatedPizza) {
-        try {
-            pizzas.set(id, updatedPizza);
-            return ResponseEntity.ok(pizzas.get(id-1));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No pizza with such ID: " + id);
-        }
+        return pizzaService.updatePizza(id, updatedPizza);
     }
 
-    @DeleteMapping("/pizza/delete/{id}")
+    @DeleteMapping("/pizzas/{id}")
     public ResponseEntity<String> deletePizza(@PathVariable int id) {
-        try {
-            pizzas.remove(id);
-            return ResponseEntity.ok("Pizza deleted successfully");
-        }
-        catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No pizza with such ID" + id);
-        }
+        return pizzaService.deletePizza(id);
     }
 }
