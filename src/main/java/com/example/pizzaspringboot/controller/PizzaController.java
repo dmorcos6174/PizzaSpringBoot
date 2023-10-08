@@ -15,7 +15,6 @@ import java.util.List;
 @RequestMapping("/api/v1")
 public class PizzaController {
 
-    @Autowired
     private final PizzaService pizzaService;
 
     public PizzaController(PizzaService pizzaService) {

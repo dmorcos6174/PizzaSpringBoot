@@ -7,7 +7,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class PizzaSpringBootApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(PizzaSpringBootApplication.class, args);
+        var context = SpringApplication.run(PizzaSpringBootApplication.class, args);
+        context.close();
     }
 
 }
