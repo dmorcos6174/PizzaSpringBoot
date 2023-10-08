@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "5a6a2b82-9e2a-4d8b-964e-b08bab38cb1d",
+		"_postman_id": "5105e3aa-a238-49e0-80fd-48b313523aa0",
 		"name": "PizzaCollection",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "27557092"
@@ -12,7 +12,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/api/pizza/getAllPizzas",
+					"raw": "http://localhost:8080/api/v1/pizzas",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -20,8 +20,8 @@
 					"port": "8080",
 					"path": [
 						"api",
-						"pizza",
-						"getAllPizzas"
+						"v1",
+						"pizzas"
 					]
 				}
 			},
@@ -33,7 +33,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/api/pizza/getPizzaWithId/2",
+					"raw": "http://localhost:8080/api/v1/pizzas/0",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -41,9 +41,9 @@
 					"port": "8080",
 					"path": [
 						"api",
-						"pizza",
-						"getPizzaWithId",
-						"2"
+						"v1",
+						"pizzas",
+						"0"
 					]
 				}
 			},
@@ -64,7 +64,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/pizza/add",
+					"raw": "http://localhost:8080/api/v1/pizzas",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -72,8 +72,8 @@
 					"port": "8080",
 					"path": [
 						"api",
-						"pizza",
-						"add"
+						"v1",
+						"pizzas"
 					]
 				}
 			},
@@ -94,7 +94,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/pizza/update/3",
+					"raw": "http://localhost:8080/api/v1/pizzas/0",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -102,9 +102,9 @@
 					"port": "8080",
 					"path": [
 						"api",
-						"pizza",
-						"update",
-						"3"
+						"v1",
+						"pizzas",
+						"0"
 					]
 				}
 			},
@@ -125,7 +125,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/pizza/delete/3",
+					"raw": "http://localhost:8080/api/v1/pizzas/0",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -133,9 +133,9 @@
 					"port": "8080",
 					"path": [
 						"api",
-						"pizza",
-						"delete",
-						"3"
+						"v1",
+						"pizzas",
+						"0"
 					]
 				}
 			},
