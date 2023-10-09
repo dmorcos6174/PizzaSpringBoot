@@ -8,7 +8,6 @@ public class PizzaSpringBootApplication {
 
     public static void main(String[] args) {
         var context = SpringApplication.run(PizzaSpringBootApplication.class, args);
-        context.close();
+//        context.close();
     }
-
 }
