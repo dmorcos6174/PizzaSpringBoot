@@ -8,26 +8,24 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.stereotype.Component;
 
 @Aspect
 @Component
-public class AspectConfig {
+public class LoggingAspect {
 
-    private Logger logger = LoggerFactory.getLogger(AspectConfig.class);
+    private final Logger logger = LoggerFactory.getLogger(LoggingAspect.class);
 
-    @Before(value = "execution(* com.example.pizzaspringboot.controller.*.*(..))")
-    public void logStatementBefore(JoinPoint joinPoint) {
-        logger.info("Started Executing {}", joinPoint);
-    }
-
-    @After(value = "execution(* com.example.pizzaspringboot.controller.*.*(..))")
-    public void logStatementAfter(JoinPoint joinPoint){
-        logger.info("Completed Executing {}", joinPoint);
-    }
-
+//    @Before(value = "execution(* com.example.pizzaspringboot.controller.*.*(..))")
+//    public void logStatementBefore(JoinPoint joinPoint) {
+//        logger.info("Started Executing {}", joinPoint);
+//    }
+//
+//    @After(value = "execution(* com.example.pizzaspringboot.controller.*.*(..))")
+//    public void logStatementAfter(JoinPoint joinPoint){
+//        logger.info("Completed Executing {}", joinPoint);
+//    }
+//
 //    @Around(value = "execution(* com.example.pizzaspringboot.controller.*.*(..))")
 //    public void logStatementAround(JoinPoint joinPoint){
 //        logger.info("Executing {}", joinPoint);
@@ -37,7 +35,6 @@ public class AspectConfig {
     public Object logStatementAround(ProceedingJoinPoint point) throws Throwable {
         logger.info("Before Executing {}", point);
         var result = point.proceed();
-
         logger.info("After Executing {}", point);
         return result;
     }
