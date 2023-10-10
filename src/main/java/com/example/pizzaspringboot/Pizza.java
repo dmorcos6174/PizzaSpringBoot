@@ -1,27 +1,32 @@
 package com.example.pizzaspringboot;
 
-public class Pizza {
-    int id;
-    String dressing;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
-    public Pizza(int id, String dressing) {
+public class Pizza {
+    @NotNull(message = "id field cannot be null")
+    String id;
+    @Size(min = 2, max = 30)
+    String name;
+
+    public Pizza(String id, String name) {
         this.id = id;
-        this.dressing = dressing;
+        this.name = name;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public String getDressing() {
-        return dressing;
+    public String getName() {
+        return name;
     }
 
-    public void setDressing(String dressing) {
-        this.dressing = dressing;
+    public void setName(String name) {
+        this.name = name;
     }
 }

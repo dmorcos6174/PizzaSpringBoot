@@ -1,7 +1,10 @@
 package com.example.pizzaspringboot.controller;
 
 import com.example.pizzaspringboot.Pizza;
+import com.example.pizzaspringboot.exception.PizzaAlreadyExistsException;
+import com.example.pizzaspringboot.exception.PizzaNotFoundException;
 import com.example.pizzaspringboot.service.PizzaService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,22 +30,22 @@ public class PizzaController {
     }
 
     @GetMapping("/pizzas/{id}")
-    public Pizza getPizzaWithId(@PathVariable int id) {
+    public Pizza getPizzaWithId(@PathVariable String id) throws PizzaNotFoundException {
         return pizzaService.getPizzaWithId(id);
     }
 
     @PostMapping("/pizzas")
-    public ResponseEntity<?> addPizza(@RequestBody Pizza pizza) {
-        return pizzaService.addPizza(pizza);
+    public void addPizza(@RequestBody Pizza pizza) throws PizzaAlreadyExistsException {
+        pizzaService.addPizza(pizza);
     }
 
     @PutMapping("/pizzas/{id}")
-    public ResponseEntity<?> updatePizza(@PathVariable int id, @RequestBody Pizza updatedPizza) {
-        return pizzaService.updatePizza(id, updatedPizza);
+    public void updatePizza(@PathVariable String id, @RequestBody Pizza updatedPizza) throws PizzaNotFoundException {
+        pizzaService.updatePizza(id, updatedPizza);
     }
 
     @DeleteMapping("/pizzas/{id}")
-    public ResponseEntity<String> deletePizza(@PathVariable int id) {
-        return pizzaService.deletePizza(id);
+    public void deletePizza(@PathVariable String id) throws PizzaNotFoundException {
+        pizzaService.deletePizza(id);
     }
 }

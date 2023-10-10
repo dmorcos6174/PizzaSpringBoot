@@ -1,6 +1,8 @@
 package com.example.pizzaspringboot.service;
 
 import com.example.pizzaspringboot.Pizza;
+import com.example.pizzaspringboot.exception.PizzaAlreadyExistsException;
+import com.example.pizzaspringboot.exception.PizzaNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -13,44 +15,39 @@ import java.util.List;
 public class PizzaService {
 
     private List<Pizza> pizzas = new ArrayList<>(Arrays.asList(
-            new Pizza(0, "Chicken Ranch"),
-            new Pizza(1, "Chicken BBQ")
+            new Pizza("0", "Chicken Ranch"),
+            new Pizza("1", "Chicken BBQ")
     ));
 
     public List<Pizza> getAllPizzas() {
         return pizzas;
     }
 
-    public Pizza getPizzaWithId(int id) {
-        return pizzas.get(id);
+    public Pizza getPizzaWithId(String id) throws PizzaNotFoundException {
+        return pizzas.stream().filter(pizza -> pizza.getId().equals(id)).findFirst().orElse(null);
     }
 
-    public ResponseEntity<?> addPizza(Pizza pizza) {
-        if (!pizzas.contains(pizza)) {
-            pizzas.add(pizza);
-            return ResponseEntity.ok(pizza);
+    public void addPizza(Pizza pizza) throws PizzaAlreadyExistsException {
+        if (pizzas.stream().anyMatch(p -> p.getId().equals(pizza.getId()) || p.getName().equals(pizza.getName()))) {
+            throw new PizzaAlreadyExistsException("A pizza with the ID " + pizza.getId() + " or name " + pizza.getName() + " already exists.");
         }
-        else
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(pizza.getDressing() + " already exists.");
+        pizzas.add(pizza);
     }
 
-    public ResponseEntity<?> updatePizza(int id, Pizza updatedPizza) {
-        try {
-            pizzas.set(id, updatedPizza);
-            return ResponseEntity.ok(pizzas.get(id-1));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No pizza with such ID: " + id);
+    public void updatePizza(String id, Pizza updatedPizza) throws PizzaNotFoundException {
+        int index = pizzas.indexOf(getPizzaWithId(id));
+        if (index == -1) {
+            throw new PizzaNotFoundException("No pizza with the ID " + id + " exists.");
         }
+        pizzas.set(index, updatedPizza);
     }
 
-    public ResponseEntity<String> deletePizza(int id) {
-        try {
-            pizzas.remove(id);
-            return ResponseEntity.ok("Pizza deleted successfully");
+    public void deletePizza(String id) throws PizzaNotFoundException {
+        int index = pizzas.indexOf(getPizzaWithId(id));
+        if (index == -1) {
+            throw new PizzaNotFoundException("No pizza with the ID " + id + " exists.");
         }
-        catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No pizza with such ID" + id);
-        }
+        pizzas.remove(index);
     }
 
 }
