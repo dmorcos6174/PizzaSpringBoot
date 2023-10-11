@@ -31,14 +31,11 @@ public class LoggingAspect {
 //        logger.info("Executing {}", joinPoint);
 //    }
 
-    @Around(value = "execution(* com.example.pizzaspringboot.controller.*.*(..))")
-    public Object logStatementAround(ProceedingJoinPoint point) throws Throwable {
-        logger.info("Before Executing {}", point);
-        var result = point.proceed();
-        logger.info("After Executing {}", point);
-        return result;
-    }
-
-
-
+//    @Around(value = "execution(* com.example.pizzaspringboot.controller.*.*(..))")
+//    public Object logStatementAround(ProceedingJoinPoint point) throws Throwable {
+//        logger.info("Before Executing {}", point);
+//        var result = point.proceed();
+//        logger.info("After Executing {}", point);
+//        return result;
+//    }
 }

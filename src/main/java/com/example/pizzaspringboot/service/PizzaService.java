@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PizzaService {
@@ -24,7 +25,11 @@ public class PizzaService {
     }
 
     public Pizza getPizzaWithId(String id) throws PizzaNotFoundException {
-        return pizzas.stream().filter(pizza -> pizza.getId().equals(id)).findFirst().orElse(null);
+        Optional<Pizza> pizza = pizzas.stream().filter(p -> p.getId().equals(id)).findFirst();
+        if (!pizza.isPresent()) {
+            throw new PizzaNotFoundException("No pizza with the ID " + id + " exists.");
+        }
+        return pizza.get();
     }
 
     public void addPizza(Pizza pizza) throws PizzaAlreadyExistsException {

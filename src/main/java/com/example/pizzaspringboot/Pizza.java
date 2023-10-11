@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Size;
 public class Pizza {
     @NotNull(message = "id field cannot be null")
     String id;
-    @Size(min = 2, max = 30)
+    @Size(min = 2, max = 30, message = "name field has to be 2-30 characters")
     String name;
 
     public Pizza(String id, String name) {

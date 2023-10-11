@@ -35,13 +35,15 @@ public class PizzaController {
     }
 
     @PostMapping("/pizzas")
-    public void addPizza(@RequestBody Pizza pizza) throws PizzaAlreadyExistsException {
+    public Pizza addPizza(@RequestBody @Valid Pizza pizza) throws PizzaAlreadyExistsException {
         pizzaService.addPizza(pizza);
+        return pizza;
     }
 
     @PutMapping("/pizzas/{id}")
-    public void updatePizza(@PathVariable String id, @RequestBody Pizza updatedPizza) throws PizzaNotFoundException {
+    public Pizza updatePizza(@PathVariable String id, @RequestBody @Valid Pizza updatedPizza) throws PizzaNotFoundException {
         pizzaService.updatePizza(id, updatedPizza);
+        return updatedPizza;
     }
 
     @DeleteMapping("/pizzas/{id}")

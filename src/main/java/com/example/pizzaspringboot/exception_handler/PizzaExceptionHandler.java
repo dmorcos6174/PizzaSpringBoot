@@ -6,17 +6,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+@RestControllerAdvice
 public class PizzaExceptionHandler {
 
     @ExceptionHandler(PizzaAlreadyExistsException.class)
-    public ResponseEntity<ErrorResponse> handlePizzaAlreadyExistsException(PizzaAlreadyExistsException ex) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(ex.getMessage()));
+    public ResponseEntity<?> handlePizzaAlreadyExistsException(PizzaAlreadyExistsException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Pizza Already Exists!");
     }
 
     @ExceptionHandler(PizzaNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handlePizzaNotFoundException(PizzaNotFoundException ex) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse(ex.getMessage()));
+    public ResponseEntity<?> handlePizzaNotFoundException(PizzaNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Pizza Not Found");
     }
-
 }
