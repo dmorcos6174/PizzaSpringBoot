@@ -13,11 +13,13 @@ public class PizzaExceptionHandler {
 
     @ExceptionHandler(PizzaAlreadyExistsException.class)
     public ResponseEntity<?> handlePizzaAlreadyExistsException(PizzaAlreadyExistsException ex) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Pizza Already Exists!");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
+
+    //implement using @ResponseStatus and return map if i want json as a reply
 
     @ExceptionHandler(PizzaNotFoundException.class)
     public ResponseEntity<?> handlePizzaNotFoundException(PizzaNotFoundException ex) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Pizza Not Found");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
 }

@@ -1,17 +1,12 @@
 package com.example.pizzaspringboot.controller;
 
-import com.example.pizzaspringboot.Pizza;
+import com.example.pizzaspringboot.dto.Pizza;
 import com.example.pizzaspringboot.exception.PizzaAlreadyExistsException;
 import com.example.pizzaspringboot.exception.PizzaNotFoundException;
 import com.example.pizzaspringboot.service.PizzaService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @RestController

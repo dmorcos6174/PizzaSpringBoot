@@ -1,10 +1,8 @@
 package com.example.pizzaspringboot.service;
 
-import com.example.pizzaspringboot.Pizza;
+import com.example.pizzaspringboot.dto.Pizza;
 import com.example.pizzaspringboot.exception.PizzaAlreadyExistsException;
 import com.example.pizzaspringboot.exception.PizzaNotFoundException;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
