@@ -85,7 +85,7 @@ public class EntityMapper {
         return instructorDetails;
     }
 
-    public StudentDTO mapStudentToDTO(Student student) {
+    public static StudentDTO mapStudentToDTO(Student student) {
         StudentDTO studentDTO = new StudentDTO();
         studentDTO.setId(student.getId());
         studentDTO.setFirstName(student.getFirstName());
@@ -100,7 +100,7 @@ public class EntityMapper {
         return studentDTO;
     }
 
-    public Student mapDTOToStudent(StudentDTO studentDTO) {
+    public static Student mapDTOToStudent(StudentDTO studentDTO) {
         Student student = new Student();
         student.setId(studentDTO.getId());
         student.setFirstName(studentDTO.getFirstName());
