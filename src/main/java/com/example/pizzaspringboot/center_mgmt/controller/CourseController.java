@@ -2,6 +2,8 @@ package com.example.pizzaspringboot.center_mgmt.controller;
 
 import com.example.pizzaspringboot.center_mgmt.dto.CourseDTO;
 import com.example.pizzaspringboot.center_mgmt.entities.Course;
+import com.example.pizzaspringboot.center_mgmt.exception.AlreadyExistsException;
+import com.example.pizzaspringboot.center_mgmt.exception.NotFoundException;
 import com.example.pizzaspringboot.center_mgmt.service.CourseService;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,13 +22,13 @@ public class CourseController {
 
     // Create
     @PostMapping("/courses")
-    public Course createCourse(@RequestBody CourseDTO courseDTO) {
+    public Course createCourse(@RequestBody CourseDTO courseDTO) throws AlreadyExistsException {
         return courseService.createCourse(courseDTO);
     }
 
     // Read
     @GetMapping("/courses/{id}")
-    public Course getCourseById(@PathVariable UUID id) {
+    public Course getCourseById(@PathVariable UUID id) throws NotFoundException {
         return courseService.getCourseById(id);
     }
 
@@ -37,14 +39,14 @@ public class CourseController {
 
     // Update
     @PutMapping("/courses/{id}")
-    public Course updateCourse(@PathVariable UUID id, @RequestBody CourseDTO courseDTO) {
+    public Course updateCourse(@PathVariable UUID id, @RequestBody CourseDTO courseDTO) throws NotFoundException {
         courseDTO.setId(id);
         return courseService.updateCourse(courseDTO);
     }
 
     // Delete
     @DeleteMapping("/courses/{id}")
-    public void deleteCourse(@PathVariable UUID id) {
+    public void deleteCourse(@PathVariable UUID id) throws NotFoundException {
         courseService.deleteCourse(id);
     }
 }
