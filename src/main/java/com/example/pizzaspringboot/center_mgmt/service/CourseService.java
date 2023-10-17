@@ -23,6 +23,7 @@ public class CourseService {
     public Course createCourse(CourseDTO courseDTO) {
         Course course = mapDTOToCourse(courseDTO);
         return courseRepo.save(course);
+//        return courseRepo.save(courseDTO);
     }
 
     // Read
