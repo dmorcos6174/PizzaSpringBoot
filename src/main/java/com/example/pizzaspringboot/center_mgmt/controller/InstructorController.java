@@ -1,7 +1,6 @@
 package com.example.pizzaspringboot.center_mgmt.controller;
 
 import com.example.pizzaspringboot.center_mgmt.dto.InstructorDTO;
-import com.example.pizzaspringboot.center_mgmt.entities.Instructor;
 import com.example.pizzaspringboot.center_mgmt.service.InstructorService;
 import org.springframework.web.bind.annotation.*;
 

@@ -1,8 +1,6 @@
 package com.example.pizzaspringboot.center_mgmt.service;
 
-import com.example.pizzaspringboot.center_mgmt.dto.CourseDTO;
 import com.example.pizzaspringboot.center_mgmt.dto.InstructorDTO;
-import com.example.pizzaspringboot.center_mgmt.entities.Course;
 import com.example.pizzaspringboot.center_mgmt.entities.Instructor;
 import com.example.pizzaspringboot.center_mgmt.exception.AlreadyExistsException;
 import com.example.pizzaspringboot.center_mgmt.exception.NotFoundException;
@@ -14,7 +12,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static com.example.pizzaspringboot.center_mgmt.util.EntityMapper.*;
+import static com.example.pizzaspringboot.center_mgmt.util.EntityMapper.mapDTOToInstructor;
+import static com.example.pizzaspringboot.center_mgmt.util.EntityMapper.mapInstructorToDTO;
 
 @Service
 public class InstructorService {

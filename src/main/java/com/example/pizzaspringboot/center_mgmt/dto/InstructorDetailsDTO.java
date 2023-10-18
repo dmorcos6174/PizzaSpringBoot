@@ -1,6 +1,5 @@
 package com.example.pizzaspringboot.center_mgmt.dto;
 
-import com.example.pizzaspringboot.center_mgmt.entities.Instructor;
 import lombok.*;
 
 import java.util.UUID;

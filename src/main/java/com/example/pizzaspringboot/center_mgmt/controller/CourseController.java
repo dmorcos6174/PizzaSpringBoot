@@ -1,7 +1,6 @@
 package com.example.pizzaspringboot.center_mgmt.controller;
 
 import com.example.pizzaspringboot.center_mgmt.dto.CourseDTO;
-import com.example.pizzaspringboot.center_mgmt.entities.Course;
 import com.example.pizzaspringboot.center_mgmt.exception.AlreadyExistsException;
 import com.example.pizzaspringboot.center_mgmt.exception.NotFoundException;
 import com.example.pizzaspringboot.center_mgmt.service.CourseService;
