@@ -1,53 +1,70 @@
 package com.example.pizzaspringboot.center_mgmt.service;
 
 import com.example.pizzaspringboot.center_mgmt.dto.InstructorDetailsDTO;
+import com.example.pizzaspringboot.center_mgmt.entities.Course;
 import com.example.pizzaspringboot.center_mgmt.entities.InstructorDetails;
+import com.example.pizzaspringboot.center_mgmt.exception.NotFoundException;
 import com.example.pizzaspringboot.center_mgmt.repository.InstructorDetailsRepo;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
-import static com.example.pizzaspringboot.center_mgmt.util.EntityMapper.mapDTOToInstructorDetails;
+import static com.example.pizzaspringboot.center_mgmt.util.EntityMapper.*;
 
 @Service
 public class InstructorDetailsService {
 
-    private InstructorDetailsRepo instructorDetailsRepo;
+    private final InstructorDetailsRepo instructorDetailsRepo;
 
     public InstructorDetailsService(InstructorDetailsRepo instructorDetailsRepo) {
         this.instructorDetailsRepo = instructorDetailsRepo;
     }
 
     // Create
-    public InstructorDetails createInstructorDetails(InstructorDetailsDTO instructorDetailsDTO) {
+    public InstructorDetailsDTO createInstructorDetails(InstructorDetailsDTO instructorDetailsDTO) {
         InstructorDetails instructorDetails = mapDTOToInstructorDetails(instructorDetailsDTO);
-        return instructorDetailsRepo.save(instructorDetails);
+        instructorDetailsRepo.save(instructorDetails);
+        return mapInstructorDetailsToDTO(instructorDetails);
     }
 
     // Read
-    public InstructorDetails getInstructorDetailsById(UUID id) {
-        return instructorDetailsRepo.findById(id).orElse(null);
+    public InstructorDetailsDTO getInstructorDetailsById(UUID id) throws NotFoundException {
+        Optional<InstructorDetails> instructorDetailsOptional = instructorDetailsRepo.findById(id);
+        if (instructorDetailsOptional.isEmpty()){
+            throw new NotFoundException("No Instructor Details with such id exists");
+        }
+        return mapInstructorDetailsToDTO(instructorDetailsOptional.get());
     }
 
-    public List<InstructorDetails> getAllInstructorDetails() {
-        return instructorDetailsRepo.findAll();
+    public List<InstructorDetailsDTO> getAllInstructorDetails() {
+        List<InstructorDetails> instructorDetailsList = instructorDetailsRepo.findAll();
+        List<InstructorDetailsDTO> instructorDetailsDTOList = new ArrayList<>();
+        for (InstructorDetails i : instructorDetailsList) {
+            instructorDetailsDTOList.add(mapInstructorDetailsToDTO(i));
+        }
+        return instructorDetailsDTOList;
     }
 
     // Update
-    public InstructorDetails updateInstructorDetails(InstructorDetailsDTO instructorDetailsDTO) {
-        InstructorDetails instructorDetails = instructorDetailsRepo.findById(instructorDetailsDTO.getId()).orElse(null);
-        if (instructorDetails != null) {
-            instructorDetails = mapDTOToInstructorDetails(instructorDetailsDTO);
-            instructorDetailsRepo.save(instructorDetails);
+    public InstructorDetailsDTO updateInstructorDetails(InstructorDetailsDTO instructorDetailsDTO) throws NotFoundException {
+        Optional<InstructorDetails> instructorDetailsOptional = instructorDetailsRepo.findById(instructorDetailsDTO.getId());
+        if (instructorDetailsOptional.isEmpty()) {
+            throw new NotFoundException("No Instructor Details with such id exists");
         }
-
-        return instructorDetails;
+        InstructorDetails savedInstructorDetails = instructorDetailsOptional.get();
+        instructorDetailsRepo.save(savedInstructorDetails);
+        return mapInstructorDetailsToDTO(savedInstructorDetails);
     }
 
     // Delete
     public void deleteInstructorDetails(UUID id) {
+        Optional<InstructorDetails> instructorDetailsOptional = instructorDetailsRepo.findById(id);
+        if (instructorDetailsOptional.isEmpty()) {
+            throw new NotFoundException("No Instructor Details with such id exists");
+        }
         instructorDetailsRepo.deleteById(id);
     }
-
 }

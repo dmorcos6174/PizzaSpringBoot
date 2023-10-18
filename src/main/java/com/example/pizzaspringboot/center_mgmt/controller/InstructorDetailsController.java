@@ -12,31 +12,31 @@ import java.util.UUID;
 @RequestMapping("/api/v1")
 public class InstructorDetailsController {
 
-    private InstructorDetailsService instructorDetailsService;
+    private final InstructorDetailsService instructorDetailsService;
 
     public InstructorDetailsController(InstructorDetailsService instructorDetailsService) {
         this.instructorDetailsService = instructorDetailsService;
     }
 
     @PostMapping("/instructors-details")
-    public InstructorDetails createInstructorDetails(@RequestBody InstructorDetailsDTO instructorDetailsDTO) {
+    public InstructorDetailsDTO createInstructorDetails(@RequestBody InstructorDetailsDTO instructorDetailsDTO) {
         return instructorDetailsService.createInstructorDetails(instructorDetailsDTO);
     }
 
     // Read
     @GetMapping("/instructors-details/{id}")
-    public InstructorDetails getInstructorDetailsById(@PathVariable UUID id) {
+    public InstructorDetailsDTO getInstructorDetailsById(@PathVariable UUID id) {
         return instructorDetailsService.getInstructorDetailsById(id);
     }
 
     @GetMapping("/instructors-details")
-    public List<InstructorDetails> getAllInstructorDetails() {
+    public List<InstructorDetailsDTO> getAllInstructorDetails() {
         return instructorDetailsService.getAllInstructorDetails();
     }
 
     // Update
     @PutMapping("/instructors-details/{id}")
-    public InstructorDetails updateInstructorDetails(@PathVariable UUID id, @RequestBody InstructorDetailsDTO instructorDetailsDTO) {
+    public InstructorDetailsDTO updateInstructorDetails(@PathVariable UUID id, @RequestBody InstructorDetailsDTO instructorDetailsDTO) {
         instructorDetailsDTO.setId(id);
         return instructorDetailsService.updateInstructorDetails(instructorDetailsDTO);
     }

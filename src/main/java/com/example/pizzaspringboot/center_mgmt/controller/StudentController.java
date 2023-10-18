@@ -15,31 +15,31 @@ import java.util.UUID;
 @RequestMapping("/api/v1")
 public class StudentController {
 
-    private StudentService studentService;
+    private final StudentService studentService;
 
     public StudentController(StudentService studentService) {
         this.studentService = studentService;
     }
 
     @PostMapping("/students")
-    public Student createStudent(@RequestBody StudentDTO studentDTO) {
+    public StudentDTO createStudent(@RequestBody StudentDTO studentDTO) {
         return studentService.createStudent(studentDTO);
     }
 
     // Read
     @GetMapping("/students/{id}")
-    public Student getStudentById(@PathVariable UUID id) {
+    public StudentDTO getStudentById(@PathVariable UUID id) {
         return studentService.getStudentById(id);
     }
 
     @GetMapping("/students")
-    public List<Student> getAllStudents() {
+    public List<StudentDTO> getAllStudents() {
         return studentService.getAllStudent();
     }
 
     // Update
     @PutMapping("/students/{id}")
-    public Student updateStudent(@PathVariable UUID id, @RequestBody StudentDTO studentDTO) {
+    public StudentDTO updateStudent(@PathVariable UUID id, @RequestBody StudentDTO studentDTO) {
         studentDTO.setId(id);
         return studentService.updateStudent(studentDTO);
     }
@@ -49,5 +49,4 @@ public class StudentController {
     public void deleteStudent(@PathVariable UUID id) {
         studentService.deleteStudent(id);
     }
-
 }

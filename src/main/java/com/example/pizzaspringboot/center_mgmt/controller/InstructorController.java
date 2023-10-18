@@ -12,31 +12,31 @@ import java.util.UUID;
 @RequestMapping("/api/v1")
 public class InstructorController {
 
-    private InstructorService instructorService;
+    private final InstructorService instructorService;
 
     public InstructorController(InstructorService instructorService) {
         this.instructorService = instructorService;
     }
 
     @PostMapping("/instructors")
-    public Instructor createInstructor(@RequestBody InstructorDTO instructorDTO) {
+    public InstructorDTO createInstructor(@RequestBody InstructorDTO instructorDTO) {
         return instructorService.createInstructor(instructorDTO);
     }
 
     // Read
     @GetMapping("/instructors/{id}")
-    public Instructor getInstructorById(@PathVariable UUID id) {
+    public InstructorDTO getInstructorById(@PathVariable UUID id) {
         return instructorService.getInstructorById(id);
     }
 
     @GetMapping("/instructors")
-    public List<Instructor> getAllInstructors() {
+    public List<InstructorDTO> getAllInstructors() {
         return instructorService.getAllInstructor();
     }
 
     // Update
     @PutMapping("/instructors/{id}")
-    public Instructor updateInstructor(@PathVariable UUID id, @RequestBody InstructorDTO instructorDTO) {
+    public InstructorDTO updateInstructor(@PathVariable UUID id, @RequestBody InstructorDTO instructorDTO) {
         instructorDTO.setId(id);
         return instructorService.updateInstructor(instructorDTO);
     }

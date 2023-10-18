@@ -10,7 +10,6 @@ import java.util.UUID;
 
 @Repository
 public interface CourseRepo extends JpaRepository<Course, UUID> {
-
     @Query("SELECT c FROM Course c WHERE c.name LIKE ?1")
     List<Course> findByName(String name);
 }

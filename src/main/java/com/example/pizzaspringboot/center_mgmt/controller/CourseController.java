@@ -14,7 +14,7 @@ import java.util.UUID;
 @RequestMapping("/api/v1")
 public class CourseController {
 
-    private CourseService courseService;
+    private final CourseService courseService;
 
     public CourseController(CourseService courseService) {
         this.courseService = courseService;
@@ -22,24 +22,24 @@ public class CourseController {
 
     // Create
     @PostMapping("/courses")
-    public Course createCourse(@RequestBody CourseDTO courseDTO) throws AlreadyExistsException {
+    public CourseDTO createCourse(@RequestBody CourseDTO courseDTO) throws AlreadyExistsException {
         return courseService.createCourse(courseDTO);
     }
 
     // Read
     @GetMapping("/courses/{id}")
-    public Course getCourseById(@PathVariable UUID id) throws NotFoundException {
+    public CourseDTO getCourseById(@PathVariable UUID id) throws NotFoundException {
         return courseService.getCourseById(id);
     }
 
     @GetMapping("/courses")
-    public List<Course> getAllCourses() {
+    public List<CourseDTO> getAllCourses() {
         return courseService.getAllCourses();
     }
 
     // Update
     @PutMapping("/courses/{id}")
-    public Course updateCourse(@PathVariable UUID id, @RequestBody CourseDTO courseDTO) throws NotFoundException {
+    public CourseDTO updateCourse(@PathVariable UUID id, @RequestBody CourseDTO courseDTO) throws NotFoundException {
         courseDTO.setId(id);
         return courseService.updateCourse(courseDTO);
     }
