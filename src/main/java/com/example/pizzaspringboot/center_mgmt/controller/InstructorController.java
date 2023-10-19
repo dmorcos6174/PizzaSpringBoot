@@ -1,6 +1,8 @@
 package com.example.pizzaspringboot.center_mgmt.controller;
 
 import com.example.pizzaspringboot.center_mgmt.dto.InstructorDTO;
+import com.example.pizzaspringboot.center_mgmt.dto.InstructorNameAndCourses;
+import com.example.pizzaspringboot.center_mgmt.dto.InstructorNameAndStudents;
 import com.example.pizzaspringboot.center_mgmt.service.InstructorService;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,5 +46,16 @@ public class InstructorController {
     @DeleteMapping("/instructors/{id}")
     public void deleteInstructor(@PathVariable UUID id) {
         instructorService.deleteInstructor(id);
+    }
+
+    // JOINS
+    @GetMapping("/instructors/names-courses")
+    public List<InstructorNameAndCourses> getInstructorNamesAndCourses() {
+        return instructorService.getInstructorNamesAndCourses();
+    }
+
+    @GetMapping("/instructors/names-students")
+    public List<InstructorNameAndStudents> getInstructorNamesAndStudents() {
+        return instructorService.getInstructorNamesAndStudents();
     }
 }

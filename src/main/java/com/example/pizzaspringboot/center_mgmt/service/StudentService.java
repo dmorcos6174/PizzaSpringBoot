@@ -1,10 +1,12 @@
 package com.example.pizzaspringboot.center_mgmt.service;
 
 import com.example.pizzaspringboot.center_mgmt.dto.StudentDTO;
+import com.example.pizzaspringboot.center_mgmt.dto.StudentName;
 import com.example.pizzaspringboot.center_mgmt.entities.Student;
 import com.example.pizzaspringboot.center_mgmt.exception.AlreadyExistsException;
 import com.example.pizzaspringboot.center_mgmt.exception.NotFoundException;
 import com.example.pizzaspringboot.center_mgmt.repository.StudentRepo;
+import jakarta.persistence.Tuple;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -12,8 +14,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static com.example.pizzaspringboot.center_mgmt.util.EntityMapper.mapDTOToStudent;
-import static com.example.pizzaspringboot.center_mgmt.util.EntityMapper.mapStudentToDTO;
+import static com.example.pizzaspringboot.center_mgmt.mapper.EntityMapper.mapDTOToStudent;
+import static com.example.pizzaspringboot.center_mgmt.mapper.EntityMapper.mapStudentToDTO;
 
 @Service
 public class StudentService {
@@ -71,5 +73,16 @@ public class StudentService {
             throw new NotFoundException("No Student with such id exists");
         }
         studentRepo.deleteById(id);
+    }
+
+    // JOINS
+    public List<StudentName> getStudentNamesInMiddleLevel() {
+        List<Tuple> tuples = studentRepo.findStudentNamesInMiddleLevel();
+        List<StudentName> studentNames = new ArrayList<>();
+        for (Tuple t : tuples) {
+            StudentName x = new StudentName(t.get(0, String.class), t.get(1, String.class));
+            studentNames.add(x);
+        }
+        return studentNames;
     }
 }

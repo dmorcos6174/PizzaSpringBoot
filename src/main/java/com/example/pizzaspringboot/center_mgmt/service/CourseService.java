@@ -1,19 +1,19 @@
 package com.example.pizzaspringboot.center_mgmt.service;
 
 import com.example.pizzaspringboot.center_mgmt.dto.CourseDTO;
+import com.example.pizzaspringboot.center_mgmt.dto.CourseNameStartDateAndStudents;
 import com.example.pizzaspringboot.center_mgmt.entities.Course;
+import com.example.pizzaspringboot.center_mgmt.entities.Student;
 import com.example.pizzaspringboot.center_mgmt.exception.AlreadyExistsException;
 import com.example.pizzaspringboot.center_mgmt.exception.NotFoundException;
 import com.example.pizzaspringboot.center_mgmt.repository.CourseRepo;
+import jakarta.persistence.Tuple;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
-import static com.example.pizzaspringboot.center_mgmt.util.EntityMapper.mapCourseToDTO;
-import static com.example.pizzaspringboot.center_mgmt.util.EntityMapper.mapDTOToCourse;
+import static com.example.pizzaspringboot.center_mgmt.mapper.EntityMapper.mapCourseToDTO;
+import static com.example.pizzaspringboot.center_mgmt.mapper.EntityMapper.mapDTOToCourse;
 
 @Service
 public class CourseService {
@@ -71,4 +71,30 @@ public class CourseService {
         }
         courseRepo.deleteById(id);
     }
+
+    // JOINS
+    public List<CourseNameStartDateAndStudents> getCourseNameStartDateAndStudents() {
+        List<Course> courseList = courseRepo.findAll();
+        List<CourseNameStartDateAndStudents> courseNameStartDateAndStudentsList = new ArrayList<>();
+        for (Course c : courseList) {
+            Set<Student> students = c.getStudents();
+            List<String> studentNames = new ArrayList<>();
+            for (Student s : students) {
+                studentNames.add(s.getFirstName() + s.getLastName());
+            }
+            CourseNameStartDateAndStudents x = new CourseNameStartDateAndStudents(c.getName(), c.getStartDate(), studentNames);
+            courseNameStartDateAndStudentsList.add(x);
+        }
+        return courseNameStartDateAndStudentsList;
+    }
+
+    /*public List<CourseNameStartDateAndStudents> getCourseNameStartDateAndStudents() {
+        List<Tuple> tuples = courseRepo.findCourseNameStartDateAndStudents();
+        List<CourseNameStartDateAndStudents> instructorNameAndStudentsList = new ArrayList<>();
+        for (Tuple t : tuples) {
+            CourseNameStartDateAndStudents x = new CourseNameStartDateAndStudents(t.get(0, String.class), t.get(1, Date.class), t.get(2, String.class), t.get(3, String.class));
+            instructorNameAndStudentsList.add(x);
+        }
+        return instructorNameAndStudentsList;
+    }*/
 }

@@ -1,6 +1,7 @@
 package com.example.pizzaspringboot.center_mgmt.entities;
 
 import com.example.pizzaspringboot.center_mgmt.enums.Gender;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -46,5 +47,6 @@ public class Student {
     @JoinTable(name = "student_course",
             joinColumns = {@JoinColumn(name = "student_id")},
             inverseJoinColumns = {@JoinColumn(name = "enrolled_course")})
+    @JsonBackReference
     private Set<Course> courses;
 }

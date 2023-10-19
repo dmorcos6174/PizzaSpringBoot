@@ -49,6 +49,6 @@ public class Course {
             joinColumns = @JoinColumn(name = "enrolled_course"),
             inverseJoinColumns = @JoinColumn(name = "student_id")
     )
-    @JsonBackReference
+//    @JsonBackReference
     private Set<Student> students;
 }

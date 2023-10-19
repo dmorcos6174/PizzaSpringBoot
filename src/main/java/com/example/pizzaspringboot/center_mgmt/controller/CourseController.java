@@ -1,6 +1,7 @@
 package com.example.pizzaspringboot.center_mgmt.controller;
 
 import com.example.pizzaspringboot.center_mgmt.dto.CourseDTO;
+import com.example.pizzaspringboot.center_mgmt.dto.CourseNameStartDateAndStudents;
 import com.example.pizzaspringboot.center_mgmt.exception.AlreadyExistsException;
 import com.example.pizzaspringboot.center_mgmt.exception.NotFoundException;
 import com.example.pizzaspringboot.center_mgmt.service.CourseService;
@@ -47,5 +48,11 @@ public class CourseController {
     @DeleteMapping("/courses/{id}")
     public void deleteCourse(@PathVariable UUID id) throws NotFoundException {
         courseService.deleteCourse(id);
+    }
+
+    // JOINS
+    @GetMapping("/courses/names-dates-students")
+    public List<CourseNameStartDateAndStudents> getCourseNameStartDateAndStudents() {
+        return courseService.getCourseNameStartDateAndStudents();
     }
 }

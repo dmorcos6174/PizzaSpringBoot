@@ -1,4 +1,4 @@
-package com.example.pizzaspringboot.center_mgmt.util;
+package com.example.pizzaspringboot.center_mgmt.mapper;
 
 import com.example.pizzaspringboot.center_mgmt.dto.CourseDTO;
 import com.example.pizzaspringboot.center_mgmt.dto.InstructorDTO;
@@ -20,6 +20,7 @@ public class EntityMapper {
         courseDTO.setCourseLevel(course.getCourseLevel());
         courseDTO.setIsStarted(course.getIsStarted());
 
+//        courseDTO.setStudents(course.getStudents());
 //        if (course.getInstructor() != null) {
 //            courseDTO.setInstructor(course.getInstructor());
 //        } else {

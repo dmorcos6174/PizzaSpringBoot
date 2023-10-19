@@ -8,6 +8,8 @@ import lombok.*;
 @Getter
 @ToString
 public class InstructorNameAndStudents {
-    private String firstName;
-    private String lastName;
+    private String iFirstName;
+    private String iLastName;
+    private String sFirstName;
+    private String sLastName;
 }

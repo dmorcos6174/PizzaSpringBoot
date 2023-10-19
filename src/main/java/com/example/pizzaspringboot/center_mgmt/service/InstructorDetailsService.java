@@ -11,8 +11,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static com.example.pizzaspringboot.center_mgmt.util.EntityMapper.mapDTOToInstructorDetails;
-import static com.example.pizzaspringboot.center_mgmt.util.EntityMapper.mapInstructorDetailsToDTO;
+import static com.example.pizzaspringboot.center_mgmt.mapper.EntityMapper.mapDTOToInstructorDetails;
+import static com.example.pizzaspringboot.center_mgmt.mapper.EntityMapper.mapInstructorDetailsToDTO;
 
 @Service
 public class InstructorDetailsService {
