@@ -1,4 +1,4 @@
-package com.example.pizzaspringboot.center_mgmt.util;
+package com.example.pizzaspringboot.center_mgmt.mapper;
 
 import com.example.pizzaspringboot.center_mgmt.dto.CourseDTO;
 import com.example.pizzaspringboot.center_mgmt.dto.InstructorDTO;
@@ -18,13 +18,14 @@ public class EntityMapper {
         courseDTO.setStartDate(course.getStartDate());
         courseDTO.setEndDate(course.getEndDate());
         courseDTO.setCourseLevel(course.getCourseLevel());
-        courseDTO.setStarted(course.getStarted());
+        courseDTO.setIsStarted(course.getIsStarted());
 
-        if (course.getInstructor() != null) {
-            courseDTO.setInstructor(course.getInstructor());
-        } else {
-            courseDTO.setInstructor(null);
-        }
+//        courseDTO.setStudents(course.getStudents());
+//        if (course.getInstructor() != null) {
+//            courseDTO.setInstructor(course.getInstructor());
+//        } else {
+//            courseDTO.setInstructor(null);
+//        }
 
         return courseDTO;
     }
@@ -36,7 +37,7 @@ public class EntityMapper {
         course.setStartDate(courseDTO.getStartDate());
         course.setEndDate(courseDTO.getEndDate());
         course.setCourseLevel(courseDTO.getCourseLevel());
-        course.setStarted(courseDTO.getStarted());
+        course.setIsStarted(courseDTO.getIsStarted());
 
         return course;
     }
@@ -48,8 +49,8 @@ public class EntityMapper {
         instructorDTO.setLastName(instructor.getLastName());
         instructorDTO.setEmail(instructor.getEmail());
         instructorDTO.setPhoneNum(instructor.getPhoneNum());
-        instructorDTO.setCourses(instructor.getCourses());
-        instructorDTO.setInstructorDetails(instructor.getInstructorDetails());
+//        instructorDTO.setCourses(instructor.getCourses());
+//        instructorDTO.setInstructorDetails(instructor.getInstructorDetails());
 
         return instructorDTO;
     }
@@ -61,8 +62,8 @@ public class EntityMapper {
         instructor.setLastName(instructorDTO.getLastName());
         instructor.setEmail(instructorDTO.getEmail());
         instructor.setPhoneNum(instructorDTO.getPhoneNum());
-        instructor.setCourses(instructorDTO.getCourses());
-        instructor.setInstructorDetails(instructorDTO.getInstructorDetails());
+//        instructor.setCourses(instructorDTO.getCourses());
+//        instructor.setInstructorDetails(instructorDTO.getInstructorDetails());
 
         return instructor;
     }
@@ -95,7 +96,7 @@ public class EntityMapper {
         studentDTO.setEmail(student.getEmail());
         studentDTO.setPhoneNum(student.getPhoneNum());
         studentDTO.setNatId(student.getNatId());
-        studentDTO.setCourses(student.getCourses());
+//        studentDTO.setCourses(student.getCourses());
 
         return studentDTO;
     }
@@ -110,7 +111,7 @@ public class EntityMapper {
         student.setEmail(studentDTO.getEmail());
         student.setPhoneNum(studentDTO.getPhoneNum());
         student.setNatId(studentDTO.getNatId());
-        student.setCourses(studentDTO.getCourses());
+//        student.setCourses(studentDTO.getCourses());
 
         return student;
     }
