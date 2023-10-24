@@ -1,0 +1,68 @@
+Join to Get Instructor Names and Course Names/IDs:
+
+This query retrieves all instructors' full names along with the name and ID of courses they teach:
+
+sql
+SELECT
+    i.first_name || ' ' || i.last_name AS instructor_name,
+    c.id AS course_id,
+    c.name AS course_name
+FROM
+    public.instructor AS i
+LEFT JOIN
+    public.course AS c ON i.id = c.instructor_id;
+
+------------------------------------------------------------------------------------------------------------------------
+
+Join to Get Instructor Names and Names of Students Enrolled:
+
+This query retrieves all instructors' full names along with the names of students enrolled in courses they teach:
+
+sql
+SELECT
+    i.first_name || ' ' || i.last_name AS instructor_name,
+    s.first_name || ' ' || s.last_name AS student_name
+FROM
+    public.instructor AS i
+INNER JOIN
+    public.course AS c ON i.id = c.instructor_id
+INNER JOIN
+    public.student_course AS sc ON c.id = sc.enrolled_course
+INNER JOIN
+    public.student AS s ON sc.student_id = s.id;
+
+------------------------------------------------------------------------------------------------------------------------
+
+Join to Get Course Names, Start Dates, and Names of Students Enrolled:
+
+This query retrieves the names of courses, their start dates, and the names of students enrolled in each course:
+
+sql
+SELECT
+    c.name AS course_name,
+    c.start_date,
+    s.first_name || ' ' || s.last_name AS student_name
+FROM
+    public.course AS c
+LEFT JOIN
+    public.student_course AS sc ON c.id = sc.enrolled_course
+LEFT JOIN
+    public.student AS s ON sc.student_id = s.id;
+
+------------------------------------------------------------------------------------------------------------------------
+
+Join to Get Names of Students Enrolled in Courses with Level: Middle:
+
+This query retrieves the names of students enrolled in courses with the level set to 'Middle':
+
+sql
+SELECT
+    s.first_name || ' ' || s.last_name AS student_name
+FROM
+    public.student AS s
+INNER JOIN
+    public.student_course AS sc ON s.id = sc.student_id
+INNER JOIN
+    public.course AS c ON sc.enrolled_course = c.id
+WHERE
+    c.course_level = 'Middle';

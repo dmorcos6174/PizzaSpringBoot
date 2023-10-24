@@ -39,7 +39,7 @@ public class Course {
     @Column(name = "is_started")
     private Boolean isStarted;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne/*(fetch = FetchType.LAZY)*/
     @JoinColumn(name = "instructor_id")
     @JsonBackReference
     private Instructor instructor;
