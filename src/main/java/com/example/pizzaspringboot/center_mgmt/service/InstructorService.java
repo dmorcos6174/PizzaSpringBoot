@@ -1,8 +1,8 @@
 package com.example.pizzaspringboot.center_mgmt.service;
 
 import com.example.pizzaspringboot.center_mgmt.dto.InstructorDTO;
-import com.example.pizzaspringboot.center_mgmt.dto.InstructorNameAndCourses;
-import com.example.pizzaspringboot.center_mgmt.dto.InstructorNameAndStudents;
+import com.example.pizzaspringboot.center_mgmt.dto.InstructorAndCourses;
+import com.example.pizzaspringboot.center_mgmt.dto.InstructorAndStudents;
 import com.example.pizzaspringboot.center_mgmt.entities.Instructor;
 import com.example.pizzaspringboot.center_mgmt.exception.AlreadyExistsException;
 import com.example.pizzaspringboot.center_mgmt.exception.NotFoundException;
@@ -77,24 +77,24 @@ public class InstructorService {
     }
 
     // JOINS
-    public List<InstructorNameAndCourses> getInstructorNamesAndCourses() {
+    public List<InstructorAndCourses> getInstructorNamesAndCourses() {
         List<Instructor> instructorList = instructorRepo.findAll();
-        List<InstructorNameAndCourses> instructorNameAndCoursesList = new ArrayList<>();
+        List<InstructorAndCourses> instructorAndCoursesList = new ArrayList<>();
         for (Instructor i : instructorList) {
-            InstructorNameAndCourses x = new InstructorNameAndCourses(i.getFirstName(), i.getLastName(), i.getCourses());
-            instructorNameAndCoursesList.add(x);
+            InstructorAndCourses x = new InstructorAndCourses(i.getFirstName(), i.getLastName(), i.getCourses());
+            instructorAndCoursesList.add(x);
         }
-        return instructorNameAndCoursesList;
+        return instructorAndCoursesList;
     }
 
-    public List<InstructorNameAndStudents> getInstructorNamesAndStudents() {
+    public List<InstructorAndStudents> getInstructorNamesAndStudents() {
         List<Tuple> tuples = instructorRepo.findInstructorNamesAndStudents();
-        List<InstructorNameAndStudents> instructorNameAndStudentsList = new ArrayList<>();
+        List<InstructorAndStudents> instructorAndStudentsList = new ArrayList<>();
         for (Tuple t : tuples) {
-            InstructorNameAndStudents x = new InstructorNameAndStudents(t.get(0, String.class), t.get(1, String.class), t.get(2, String.class), t.get(3, String.class));
-            instructorNameAndStudentsList.add(x);
+            InstructorAndStudents x = new InstructorAndStudents(t.get(0, String.class), t.get(1, String.class), t.get(2, String.class), t.get(3, String.class));
+            instructorAndStudentsList.add(x);
         }
-        return instructorNameAndStudentsList;
+        return instructorAndStudentsList;
     }
 
 }

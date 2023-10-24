@@ -1,5 +1,6 @@
 package com.example.pizzaspringboot.center_mgmt.repository;
 
+import com.example.pizzaspringboot.center_mgmt.dto.CourseOfLevelAndStudents;
 import com.example.pizzaspringboot.center_mgmt.entities.Course;
 import jakarta.persistence.Tuple;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,4 +18,14 @@ public interface CourseRepo extends JpaRepository<Course, UUID> {
     @Query("SELECT c.name, c.startDate, s.firstName, s.lastName FROM Course c JOIN c.students s")
 //    @Query("SELECT s.firstName, s.lastName, c.name, c.startDate FROM Student s JOIN s.courses c")
     List<Tuple> findCourseNameStartDateAndStudents();
+
+    @Query("""
+SELECT
+new com.example.pizzaspringboot.center_mgmt.dto.CourseOfLevelAndStudents(c.name, LISTAGG(s.firstName || ' ' || s.lastName, ', ') WITHIN GROUP (ORDER BY s.firstName))
+FROM Course c
+JOIN c.students s
+WHERE c.courseLevel = 'Middle'
+GROUP BY c.name, c.startDate
+""")
+    List<CourseOfLevelAndStudents> findCoursesOfLevelAndStudents();
 }

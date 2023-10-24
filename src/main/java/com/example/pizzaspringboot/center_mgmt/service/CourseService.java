@@ -2,6 +2,7 @@ package com.example.pizzaspringboot.center_mgmt.service;
 
 import com.example.pizzaspringboot.center_mgmt.dto.CourseDTO;
 import com.example.pizzaspringboot.center_mgmt.dto.CourseNameStartDateAndStudents;
+import com.example.pizzaspringboot.center_mgmt.dto.CourseOfLevelAndStudents;
 import com.example.pizzaspringboot.center_mgmt.entities.Course;
 import com.example.pizzaspringboot.center_mgmt.entities.Student;
 import com.example.pizzaspringboot.center_mgmt.exception.AlreadyExistsException;
@@ -97,4 +98,8 @@ public class CourseService {
         }
         return instructorNameAndStudentsList;
     }*/
+
+    public List<CourseOfLevelAndStudents> getCoursesOfLevelAndStudents() {
+        return courseRepo.findCoursesOfLevelAndStudents();
+    }
 }

@@ -1,8 +1,8 @@
 package com.example.pizzaspringboot.center_mgmt.controller;
 
 import com.example.pizzaspringboot.center_mgmt.dto.InstructorDTO;
-import com.example.pizzaspringboot.center_mgmt.dto.InstructorNameAndCourses;
-import com.example.pizzaspringboot.center_mgmt.dto.InstructorNameAndStudents;
+import com.example.pizzaspringboot.center_mgmt.dto.InstructorAndCourses;
+import com.example.pizzaspringboot.center_mgmt.dto.InstructorAndStudents;
 import com.example.pizzaspringboot.center_mgmt.service.InstructorService;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,12 +50,12 @@ public class InstructorController {
 
     // JOINS
     @GetMapping("/instructors/names-courses")
-    public List<InstructorNameAndCourses> getInstructorNamesAndCourses() {
+    public List<InstructorAndCourses> getInstructorNamesAndCourses() {
         return instructorService.getInstructorNamesAndCourses();
     }
 
     @GetMapping("/instructors/names-students")
-    public List<InstructorNameAndStudents> getInstructorNamesAndStudents() {
+    public List<InstructorAndStudents> getInstructorNamesAndStudents() {
         return instructorService.getInstructorNamesAndStudents();
     }
 }

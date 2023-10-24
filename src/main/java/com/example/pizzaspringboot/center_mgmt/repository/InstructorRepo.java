@@ -1,13 +1,9 @@
 package com.example.pizzaspringboot.center_mgmt.repository;
 
-import com.example.pizzaspringboot.center_mgmt.dto.InstructorNameAndCourses;
-import com.example.pizzaspringboot.center_mgmt.dto.InstructorNameAndStudents;
 import com.example.pizzaspringboot.center_mgmt.entities.Instructor;
-import com.example.pizzaspringboot.center_mgmt.entities.Student;
 import jakarta.persistence.Tuple;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

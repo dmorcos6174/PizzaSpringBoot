@@ -2,6 +2,7 @@ package com.example.pizzaspringboot.center_mgmt.controller;
 
 import com.example.pizzaspringboot.center_mgmt.dto.CourseDTO;
 import com.example.pizzaspringboot.center_mgmt.dto.CourseNameStartDateAndStudents;
+import com.example.pizzaspringboot.center_mgmt.dto.CourseOfLevelAndStudents;
 import com.example.pizzaspringboot.center_mgmt.exception.AlreadyExistsException;
 import com.example.pizzaspringboot.center_mgmt.exception.NotFoundException;
 import com.example.pizzaspringboot.center_mgmt.service.CourseService;
@@ -54,5 +55,10 @@ public class CourseController {
     @GetMapping("/courses/names-dates-students")
     public List<CourseNameStartDateAndStudents> getCourseNameStartDateAndStudents() {
         return courseService.getCourseNameStartDateAndStudents();
+    }
+
+    @GetMapping("/courses/middle-level")
+    public List<CourseOfLevelAndStudents> getCoursesOfLevelAndStudents() {
+        return courseService.getCoursesOfLevelAndStudents();
     }
 }

@@ -10,7 +10,7 @@ import java.util.List;
 @Setter
 @Getter
 @ToString
-public class InstructorNameAndCourses {
+public class InstructorAndCourses {
     private String firstName;
     private String lastName;
     private List<Course> courses;
