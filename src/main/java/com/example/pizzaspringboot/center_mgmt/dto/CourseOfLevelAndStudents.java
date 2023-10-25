@@ -12,5 +12,5 @@ import java.util.List;
 @ToString
 public class CourseOfLevelAndStudents {
     private String courseName;
-    private List<String> studentNames;
+    private String studentNames;
 }
