@@ -7,7 +7,7 @@ import com.example.pizzaspringboot.calculator.exception.NegativeSubtractionExcep
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class CalculatorServiceTest {
+public class CalculatorServiceTests {
 
     private final CalculatorService calculatorService = new CalculatorService();
 
