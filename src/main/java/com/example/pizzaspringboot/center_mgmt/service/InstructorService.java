@@ -33,9 +33,8 @@ public class InstructorService {
             throw new AlreadyExistsException("Instructor with name: " + instructorDTO.getFirstName() + " " + instructorDTO.getLastName() + "already exists");
         }
 
-        Instructor instructor = mapDTOToInstructor(instructorDTO);
-        instructorRepo.save(instructor);
-        return mapInstructorToDTO(instructor);
+        Instructor savedInstructor = instructorRepo.save(mapDTOToInstructor(instructorDTO));
+        return mapInstructorToDTO(savedInstructor);
     }
 
     // Read
@@ -62,18 +61,18 @@ public class InstructorService {
         if (instructorOptional.isEmpty()) {
             throw new NotFoundException("No Instructor with such id exists");
         }
-        Instructor savedInstructor = instructorOptional.get();
-        instructorRepo.save(savedInstructor);
-        return mapInstructorToDTO(savedInstructor);
+        Instructor updatedInstructor = instructorRepo.save(mapDTOToInstructor(instructorDTO));
+        return mapInstructorToDTO(updatedInstructor);
     }
 
     // Delete
-    public void deleteInstructor(UUID id) {
+    public boolean deleteInstructor(UUID id) {
         Optional<Instructor> instructorOptional = instructorRepo.findById(id);
         if (instructorOptional.isEmpty()) {
             throw new NotFoundException("No Instructor with such id exists");
         }
         instructorRepo.deleteById(id);
+        return !instructorRepo.existsById(id);
     }
 
     // JOINS

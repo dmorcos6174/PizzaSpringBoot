@@ -1,6 +1,7 @@
 package com.example.pizzaspringboot.center_mgmt.service;
 
 import com.example.pizzaspringboot.center_mgmt.dto.InstructorDetailsDTO;
+import com.example.pizzaspringboot.center_mgmt.entities.Instructor;
 import com.example.pizzaspringboot.center_mgmt.entities.InstructorDetails;
 import com.example.pizzaspringboot.center_mgmt.exception.NotFoundException;
 import com.example.pizzaspringboot.center_mgmt.repository.InstructorDetailsRepo;
@@ -25,9 +26,8 @@ public class InstructorDetailsService {
 
     // Create
     public InstructorDetailsDTO createInstructorDetails(InstructorDetailsDTO instructorDetailsDTO) {
-        InstructorDetails instructorDetails = mapDTOToInstructorDetails(instructorDetailsDTO);
-        instructorDetailsRepo.save(instructorDetails);
-        return mapInstructorDetailsToDTO(instructorDetails);
+        InstructorDetails savedInstDetails = instructorDetailsRepo.save(mapDTOToInstructorDetails(instructorDetailsDTO));
+        return mapInstructorDetailsToDTO(savedInstDetails);
     }
 
     // Read
@@ -54,17 +54,17 @@ public class InstructorDetailsService {
         if (instructorDetailsOptional.isEmpty()) {
             throw new NotFoundException("No Instructor Details with such id exists");
         }
-        InstructorDetails savedInstructorDetails = instructorDetailsOptional.get();
-        instructorDetailsRepo.save(savedInstructorDetails);
-        return mapInstructorDetailsToDTO(savedInstructorDetails);
+        InstructorDetails updatedInstDetails = instructorDetailsRepo.save(mapDTOToInstructorDetails(instructorDetailsDTO));
+        return mapInstructorDetailsToDTO(updatedInstDetails);
     }
 
     // Delete
-    public void deleteInstructorDetails(UUID id) {
+    public boolean deleteInstructorDetails(UUID id) {
         Optional<InstructorDetails> instructorDetailsOptional = instructorDetailsRepo.findById(id);
         if (instructorDetailsOptional.isEmpty()) {
             throw new NotFoundException("No Instructor Details with such id exists");
         }
         instructorDetailsRepo.deleteById(id);
+        return !instructorDetailsRepo.existsById(id);
     }
 }

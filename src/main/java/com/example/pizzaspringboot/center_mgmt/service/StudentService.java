@@ -31,10 +31,8 @@ public class StudentService {
         if(studentRepo.findByName(studentDTO.getFirstName(), studentDTO.getLastName()).isEmpty()) {
             throw new AlreadyExistsException("Student with name: " + studentDTO.getFirstName() + " " + studentDTO.getLastName() + "already exists");
         }
-
-        Student student = mapDTOToStudent(studentDTO);
-        studentRepo.save(student);
-        return mapStudentToDTO(student);
+        Student savedStudent = studentRepo.save(mapDTOToStudent(studentDTO));
+        return mapStudentToDTO(savedStudent);
     }
 
     // Read
@@ -61,18 +59,18 @@ public class StudentService {
         if (studentOptional.isEmpty()) {
             throw new NotFoundException("No Student with such id exists");
         }
-        Student savedStudent = studentOptional.get();
-        studentRepo.save(savedStudent);
-        return mapStudentToDTO(savedStudent);
+        Student updatedStudent = studentRepo.save(mapDTOToStudent(studentDTO));
+        return mapStudentToDTO(updatedStudent);
     }
 
     // Delete
-    public void deleteStudent(UUID id) {
+    public boolean deleteStudent(UUID id) {
         Optional<Student> studentOptional = studentRepo.findById(id);
         if (studentOptional.isEmpty()) {
             throw new NotFoundException("No Student with such id exists");
         }
         studentRepo.deleteById(id);
+        return !studentRepo.existsById(id);
     }
 
     // JOINS

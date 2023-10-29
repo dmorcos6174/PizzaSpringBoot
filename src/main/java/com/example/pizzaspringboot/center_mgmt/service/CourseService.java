@@ -30,9 +30,8 @@ public class CourseService {
         if (!courseRepo.findByName(courseDTO.getName()).isEmpty()) {
             throw new AlreadyExistsException("Course with name: " + courseDTO.getName() + " already exists");
         }
-        Course course = mapDTOToCourse(courseDTO);
-        courseRepo.save(course);
-        return mapCourseToDTO(course);
+        Course savedCourse = courseRepo.save(mapDTOToCourse(courseDTO));
+        return mapCourseToDTO(savedCourse);
     }
 
     // Read
@@ -59,18 +58,18 @@ public class CourseService {
         if (courseOptional.isEmpty()) {
             throw new NotFoundException("No Course with such id exists");
         }
-        Course savedCourse = courseOptional.get();
-        courseRepo.save(savedCourse);
-        return mapCourseToDTO(savedCourse);
+        Course updatedCourse = courseRepo.save(mapDTOToCourse(courseDTO));
+        return mapCourseToDTO(updatedCourse);
     }
 
     // Delete
-    public void deleteCourse(UUID id) throws NotFoundException {
+    public boolean deleteCourse(UUID id) throws NotFoundException {
         Optional<Course> courseOptional = courseRepo.findById(id);
         if (courseOptional.isEmpty()) {
             throw new NotFoundException("No Course with such id exists");
         }
         courseRepo.deleteById(id);
+        return !courseRepo.existsById(id);
     }
 
     // JOINS
