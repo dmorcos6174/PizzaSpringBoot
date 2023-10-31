@@ -29,7 +29,7 @@ public class InstructorService {
 
     // Create
     public InstructorDTO createInstructor(InstructorDTO instructorDTO) throws AlreadyExistsException {
-        if(instructorRepo.findByName(instructorDTO.getFirstName(), instructorDTO.getLastName()).isEmpty()) {
+        if (!instructorRepo.findByName(instructorDTO.getFirstName(), instructorDTO.getLastName()).isEmpty()) {
             throw new AlreadyExistsException("Instructor with name: " + instructorDTO.getFirstName() + " " + instructorDTO.getLastName() + "already exists");
         }
 
@@ -95,5 +95,4 @@ public class InstructorService {
         }
         return instructorAndStudentsList;
     }
-
 }

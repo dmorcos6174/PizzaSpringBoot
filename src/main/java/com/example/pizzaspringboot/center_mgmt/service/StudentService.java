@@ -28,7 +28,7 @@ public class StudentService {
 
     // Create
     public StudentDTO createStudent(StudentDTO studentDTO) throws AlreadyExistsException {
-        if(studentRepo.findByName(studentDTO.getFirstName(), studentDTO.getLastName()).isEmpty()) {
+        if(!studentRepo.findByName(studentDTO.getFirstName(), studentDTO.getLastName()).isEmpty()) {
             throw new AlreadyExistsException("Student with name: " + studentDTO.getFirstName() + " " + studentDTO.getLastName() + "already exists");
         }
         Student savedStudent = studentRepo.save(mapDTOToStudent(studentDTO));
