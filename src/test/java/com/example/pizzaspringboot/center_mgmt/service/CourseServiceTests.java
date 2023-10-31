@@ -1,10 +1,16 @@
 package com.example.pizzaspringboot.center_mgmt.service;
 
 import com.example.pizzaspringboot.center_mgmt.dto.CourseDTO;
+import com.example.pizzaspringboot.center_mgmt.dto.CourseNameStartDateAndStudents;
+import com.example.pizzaspringboot.center_mgmt.dto.StudentDTO;
 import com.example.pizzaspringboot.center_mgmt.entities.Course;
+import com.example.pizzaspringboot.center_mgmt.entities.Student;
 import com.example.pizzaspringboot.center_mgmt.enums.CourseLevel;
+import com.example.pizzaspringboot.center_mgmt.enums.Gender;
 import com.example.pizzaspringboot.center_mgmt.repository.CourseRepo;
+import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -25,8 +31,25 @@ public class CourseServiceTests {
     @InjectMocks
     private CourseService courseService;
 
+    private Student student2 = new Student(UUID.randomUUID(), "Test2", "Student2", 18, Gender.MALE, "student@sample.com", "01234567890", 30000000000000L, null);
+    private StudentDTO studentDTO2 = new StudentDTO(student2.getId(), "Test2", "Student2", 18, Gender.MALE, "student@sample.com", "01234567890", 30000000000000L);
+
+    private Set<Student> studentSet = new HashSet<>();
+
     private Course course = new Course(UUID.randomUUID(), "Test Course", new Date(2023, 9, 26), new Date(2023, 11, 26), CourseLevel.Beginner, true, null, null);
     private CourseDTO courseDTO = new CourseDTO(course.getId(), "Test Course", new Date(2023, 9, 26), new Date(2023, 11, 26), CourseLevel.Beginner, true);
+    private Course course2 = new Course(UUID.randomUUID(), "Test Course2", new Date(2023, 9, 26), new Date(2023, 11, 26), CourseLevel.Middle, true, null, null);
+    private CourseDTO courseDTO2 = new CourseDTO(course2.getId(), "Test Course2", new Date(2023, 9, 26), new Date(2023, 11, 26), CourseLevel.Middle, true);
+    private List<String> studentNames = new ArrayList<>(Arrays.asList("David", "Youssef", "Muhammad"));
+    private CourseNameStartDateAndStudents s1 = new CourseNameStartDateAndStudents(course.getName(), course.getStartDate(), studentNames);
+    private CourseNameStartDateAndStudents s2 = new CourseNameStartDateAndStudents(course2.getName(), course2.getStartDate(), studentNames);
+    private List<Course> courseList = new ArrayList<>(Arrays.asList(course, course2));
+    private List<CourseDTO> courseDTOList = new ArrayList<>(Arrays.asList(courseDTO, courseDTO2));
+    private List<CourseNameStartDateAndStudents> ls = new ArrayList<>(Arrays.asList(s1, s2));
+
+    @BeforeAll
+    public void setUp() {
+    }
 
     @Test
     public void CourseService_CreateCourse_ReturnsCourseDTO() {
@@ -52,17 +75,6 @@ public class CourseServiceTests {
 
     @Test
     public void CourseService_GetAllCourses_ReturnsAllCourses() {
-        Course course2 = new Course(UUID.randomUUID(), "Test Course2", new Date(2023, 9, 26), new Date(2023, 11, 26), CourseLevel.Middle, true, null, null);
-        CourseDTO courseDTO2 = new CourseDTO(course2.getId(), "Test Course2", new Date(2023, 9, 26), new Date(2023, 11, 26), CourseLevel.Middle, true);
-
-        List<Course> courseList = new ArrayList<>();
-        courseList.add(course);
-        courseList.add(course2);
-
-        List<CourseDTO> courseDTOList = new ArrayList<>();
-        courseDTOList.add(courseDTO);
-        courseDTOList.add(courseDTO2);
-
         doReturn(courseList).when(courseRepo).findAll();
 
         List<CourseDTO> retrievedCourses = courseService.getAllCourses();
@@ -92,5 +104,12 @@ public class CourseServiceTests {
         doReturn(false).when(courseRepo).existsById(any());
 
         Assertions.assertTrue(courseService.deleteCourse(course.getId()));
+    }
+
+    @Test
+    public void CourseService_GetCourseNameStartDateAndStudents_ReturnsListOfCourseNameStartDateAndStudents() {
+        doReturn(courseList).when(courseRepo).findAll();
+
+        Assertions.assertNotNull(courseService.getCourseNameStartDateAndStudents());
     }
 }

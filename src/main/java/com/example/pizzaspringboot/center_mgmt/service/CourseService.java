@@ -73,7 +73,7 @@ public class CourseService {
     }
 
     // JOINS
-    public List<CourseNameStartDateAndStudents> getCourseNameStartDateAndStudents() {
+        public List<CourseNameStartDateAndStudents> getCourseNameStartDateAndStudents() {
         List<Course> courseList = courseRepo.findAll();
         List<CourseNameStartDateAndStudents> courseNameStartDateAndStudentsList = new ArrayList<>();
         for (Course c : courseList) {
