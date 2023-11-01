@@ -4,6 +4,7 @@ import com.example.pizzaspringboot.center_mgmt.entities.Student;
 import com.example.pizzaspringboot.center_mgmt.enums.CourseLevel;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Set;
 import java.util.UUID;
@@ -16,8 +17,8 @@ import java.util.UUID;
 public class CourseDTO {
     private UUID id;
     private String name;
-    private Date startDate;
-    private Date endDate;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
     private CourseLevel courseLevel;
     private Boolean isStarted;
 //    private Set<Student> students;

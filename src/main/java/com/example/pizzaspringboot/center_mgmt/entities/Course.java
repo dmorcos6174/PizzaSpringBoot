@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Set;
 import java.util.UUID;
@@ -27,10 +28,10 @@ public class Course {
     private String name;
 
     @Column(name = "start_date")
-    private Date startDate;
+    private LocalDateTime startDate;
 
     @Column(name = "end_date")
-    private Date endDate;
+    private LocalDateTime endDate;
 
     @Column(name = "course_level")
     @Enumerated(EnumType.STRING)
