@@ -14,6 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.util.Assert;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -32,18 +33,13 @@ public class CourseServiceTests {
 
     private final Student student = new Student(UUID.randomUUID(), "Test", "Student", 18, Gender.MALE, "student@sample.com", "01234567890", 30000000000000L, null);
     private final Student student2 = new Student(UUID.randomUUID(), "Test2", "Student2", 18, Gender.MALE, "student@sample.com", "01234567890", 30000000000000L, null);
-    private final Set<Student> studentSet = Stream.of(student, student2).collect(Collectors.toSet());
-
+    private final Set<Student> studentSet = Stream.of(student2, student).collect(Collectors.toSet());
     private final Course course = new Course(UUID.randomUUID(), "Test Course", LocalDateTime.of(2023, 9, 26, 0, 0, 0), LocalDateTime.of(2023, 11, 26, 0, 0, 0), CourseLevel.Beginner, true, null, studentSet);
     private final CourseDTO courseDTO = new CourseDTO(course.getId(), "Test Course", course.getStartDate(), course.getEndDate(), CourseLevel.Beginner, true);
     private final Course course2 = new Course(UUID.randomUUID(), "Test Course2", course.getStartDate(), course.getEndDate(), CourseLevel.Middle, true, null, studentSet);
     private final CourseDTO courseDTO2 = new CourseDTO(course2.getId(), "Test Course2", course.getStartDate(), course.getEndDate(), CourseLevel.Middle, true);
     private final List<Course> courseList = new ArrayList<>(Arrays.asList(course, course2));
     private final List<CourseDTO> courseDTOList = new ArrayList<>(Arrays.asList(courseDTO, courseDTO2));
-    private final List<String> studentNames = new ArrayList<>(Arrays.asList("David", "Youssef", "Muhammad"));
-    private final CourseNameStartDateAndStudents s1 = new CourseNameStartDateAndStudents(course.getName(), course.getStartDate(), studentNames);
-    private final CourseNameStartDateAndStudents s2 = new CourseNameStartDateAndStudents(course2.getName(), course2.getStartDate(), studentNames);
-    private final List<CourseNameStartDateAndStudents> ls = new ArrayList<>(Arrays.asList(s1, s2));
 
     @Test
     public void CourseService_CreateCourse_ReturnsCourseDTO() {
@@ -105,6 +101,11 @@ public class CourseServiceTests {
         doReturn(courseList).when(courseRepo).findAll();
         List<CourseNameStartDateAndStudents> list = courseService.getCourseNameStartDateAndStudents();
         Assertions.assertNotNull(list);
-
+        Assertions.assertEquals(course.getName(), list.get(0).getCourseName());
+        Assertions.assertEquals(course2.getName(), list.get(1).getCourseName());
+        Assertions.assertEquals(course.getStartDate(), list.get(0).getCourseDate());
+        Assertions.assertEquals(course2.getStartDate(), list.get(1).getCourseDate());
+        Assertions.assertEquals(student.getFirstName() + " " + student.getLastName(), list.get(0).getStudentNames().get(0));
+        Assertions.assertEquals(student2.getFirstName() + " " + student2.getLastName(), list.get(1).getStudentNames().get(1));
     }
 }

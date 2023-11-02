@@ -80,7 +80,7 @@ public class CourseService {
             Set<Student> students = c.getStudents();
             List<String> studentNames = new ArrayList<>();
             for (Student s : students) {
-                studentNames.add(s.getFirstName() + s.getLastName());
+                studentNames.add(s.getFirstName() + " " + s.getLastName());
             }
             CourseNameStartDateAndStudents x = new CourseNameStartDateAndStudents(c.getName(), c.getStartDate(), studentNames);
             courseNameStartDateAndStudentsList.add(x);
