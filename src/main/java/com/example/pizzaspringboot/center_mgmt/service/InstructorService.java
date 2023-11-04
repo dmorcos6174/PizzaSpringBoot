@@ -23,8 +23,11 @@ public class InstructorService {
 
     private final InstructorRepo instructorRepo;
 
-    public InstructorService(InstructorRepo instructorRepo) {
+    private final InstructorValidation instructorValidation;
+
+    public InstructorService(InstructorRepo instructorRepo, InstructorValidation instructorValidation) {
         this.instructorRepo = instructorRepo;
+        this.instructorValidation = instructorValidation;
     }
 
     // Create
@@ -32,7 +35,10 @@ public class InstructorService {
         if (!instructorRepo.findByName(instructorDTO.getFirstName(), instructorDTO.getLastName()).isEmpty()) {
             throw new AlreadyExistsException("Instructor with name: " + instructorDTO.getFirstName() + " " + instructorDTO.getLastName() + "already exists");
         }
-
+        if (!isPhoneNumUnique(instructorDTO))
+            throw new RuntimeException("Invalid Phone Number");
+        if (!isEmailValid(instructorDTO.getEmail()))
+            throw new RuntimeException("Invalid Email");
         Instructor savedInstructor = instructorRepo.save(mapDTOToInstructor(instructorDTO));
         return mapInstructorToDTO(savedInstructor);
     }
@@ -61,6 +67,12 @@ public class InstructorService {
         if (instructorOptional.isEmpty()) {
             throw new NotFoundException("No Instructor with such id exists");
         }
+        if (!isPhoneNumUnique(instructorDTO))
+            throw new RuntimeException("Invalid Phone Number");
+        if (!isEmailValid(instructorDTO.getEmail()))
+            throw new RuntimeException("Invalid Email");
+        if (!isYoutubeChannelPresent(instructorDTO))
+            throw new RuntimeException("No Youtube Channel");
         Instructor updatedInstructor = instructorRepo.save(mapDTOToInstructor(instructorDTO));
         return mapInstructorToDTO(updatedInstructor);
     }
@@ -94,5 +106,17 @@ public class InstructorService {
             instructorAndStudentsList.add(x);
         }
         return instructorAndStudentsList;
+    }
+
+    protected boolean isPhoneNumUnique(InstructorDTO instructorDTO) {
+        return instructorValidation.isPhoneNumUnique(instructorDTO);
+    }
+
+    protected boolean isEmailValid(String emailAddress) {
+        return instructorValidation.isEmailValid(emailAddress);
+    }
+
+    protected boolean isYoutubeChannelPresent(InstructorDTO instructorDTO) {
+        return instructorValidation.isYoutubeChannelPresent(instructorDTO);
     }
 }

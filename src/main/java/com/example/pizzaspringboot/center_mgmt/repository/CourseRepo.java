@@ -16,7 +16,6 @@ public interface CourseRepo extends JpaRepository<Course, UUID> {
     List<Course> findByName(String name);
 
     @Query("SELECT c.name, c.startDate, s.firstName, s.lastName FROM Course c JOIN c.students s")
-//    @Query("SELECT s.firstName, s.lastName, c.name, c.startDate FROM Student s JOIN s.courses c")
     List<Tuple> findCourseNameStartDateAndStudents();
 
     @Query("""

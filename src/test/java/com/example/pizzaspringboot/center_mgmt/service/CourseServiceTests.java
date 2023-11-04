@@ -7,6 +7,7 @@ import com.example.pizzaspringboot.center_mgmt.entities.Student;
 import com.example.pizzaspringboot.center_mgmt.enums.CourseLevel;
 import com.example.pizzaspringboot.center_mgmt.enums.Gender;
 import com.example.pizzaspringboot.center_mgmt.exception.AlreadyExistsException;
+import com.example.pizzaspringboot.center_mgmt.exception.NotFoundException;
 import com.example.pizzaspringboot.center_mgmt.repository.CourseRepo;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -56,8 +57,11 @@ public class CourseServiceTests {
 
     @Test
     public void CourseService_CreateCourse_ThrowsAlreadyExistsException() {
-        doReturn(Optional.of(course)).when(courseRepo.findByName(any()));
-        doReturn(false).when(courseRepo.findByName(any())).isEmpty();
+        Optional<Course> optional = Optional.of(course);
+        Optional<Course> optional1 = Optional.of(course2);
+        List<Optional<Course>> optionalList = new ArrayList<>(Arrays.asList(optional, optional1));
+
+        doReturn(optionalList).when(courseRepo).findByName(any());
 
         Assertions.assertThrows(AlreadyExistsException.class, () -> {
             courseService.createCourse(courseDTO);
@@ -72,6 +76,15 @@ public class CourseServiceTests {
 
         Assertions.assertNotNull(retrievedCourse);
         Assertions.assertEquals(retrievedCourse.getId(), courseDTO.getId());
+    }
+
+    @Test
+    public void CourseService_GetCourseById_ThrowsNotFoundException() {
+        doReturn(Optional.empty()).when(courseRepo).findById(any());
+
+        Assertions.assertThrows(NotFoundException.class, () -> {
+            courseService.getCourseById(courseDTO.getId());
+        });
     }
 
     @Test
@@ -99,12 +112,30 @@ public class CourseServiceTests {
     }
 
     @Test
+    public void CourseService_UpdateCourse_ThrowsNotFoundException() {
+        doReturn(Optional.empty()).when(courseRepo).findById(any());
+
+        Assertions.assertThrows(NotFoundException.class, () -> {
+            courseService.updateCourse(courseDTO);
+        });
+    }
+
+    @Test
     public void CourseService_DeleteCourse_ReturnsTrue() {
         doReturn(Optional.of(course)).when(courseRepo).findById(any());
         doNothing().when(courseRepo).deleteById(any());
         doReturn(false).when(courseRepo).existsById(any());
 
         Assertions.assertTrue(courseService.deleteCourse(course.getId()));
+    }
+
+    @Test
+    public void CourseService_DeleteCourse_ThrowsNotFoundException() {
+        doReturn(Optional.empty()).when(courseRepo).findById(any());
+
+        Assertions.assertThrows(NotFoundException.class, () -> {
+            courseService.deleteCourse(courseDTO.getId());
+        });
     }
 
     @Test

@@ -14,6 +14,10 @@ public interface InstructorRepo extends JpaRepository<Instructor, UUID> {
     @Query("SELECT i FROM Instructor i WHERE i.firstName LIKE ?1 AND i.lastName LIKE ?2")
     List<Instructor> findByName(String firstName, String lastName);
 
+    List<Instructor> findInstructorByFirstNameAndLastName(String firstName, String lastName);
+
+    List<Instructor> findInstructorByPhoneNum(String phoneNum);
+
     @Query("SELECT i.firstName, i.lastName, s.firstName, s.lastName FROM Instructor i JOIN i.courses c JOIN c.students s")
     List<Tuple> findInstructorNamesAndStudents();
 }
