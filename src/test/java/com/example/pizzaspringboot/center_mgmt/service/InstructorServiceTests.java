@@ -1,7 +1,9 @@
 package com.example.pizzaspringboot.center_mgmt.service;
 
 import com.example.pizzaspringboot.center_mgmt.dto.InstructorDTO;
+import com.example.pizzaspringboot.center_mgmt.entities.Course;
 import com.example.pizzaspringboot.center_mgmt.entities.Instructor;
+import com.example.pizzaspringboot.center_mgmt.exception.AlreadyExistsException;
 import com.example.pizzaspringboot.center_mgmt.exception.NotFoundException;
 import com.example.pizzaspringboot.center_mgmt.repository.InstructorRepo;
 import jakarta.inject.Inject;
@@ -24,7 +26,8 @@ import static org.mockito.Mockito.doReturn;
 public class InstructorServiceTests {
     @Mock
     private InstructorRepo instructorRepo;
-
+    @Mock
+    private InstructorValidation instructorValidation;
     @InjectMocks
     private InstructorService instructorService;
 
@@ -38,12 +41,50 @@ public class InstructorServiceTests {
     @Test
     public void InstructorService_CreateInstructor_ReturnsInstructorDTO() {
         doReturn(new ArrayList<>()).when(instructorRepo).findByName(any(), any());
+        doReturn(true).when(instructorValidation).isPhoneNumUnique(any());
+        doReturn(true).when(instructorValidation).isEmailValid(any());
         doReturn(instructor).when(instructorRepo).save(Mockito.any(Instructor.class));
 
         InstructorDTO savedInstructor = instructorService.createInstructor(instructorDTO);
 
         Assertions.assertNotNull(savedInstructor);
         Assertions.assertEquals(savedInstructor.getId(), instructorDTO.getId());
+    }
+
+    @Test
+    public void InstructorService_CreateInstructor_ThrowsAlreadyExistsException() {
+        Optional<Instructor> optional = Optional.of(instructor);
+        Optional<Instructor> optional1 = Optional.of(instructor2);
+        List<Optional<Instructor>> optionalList = new ArrayList<>(Arrays.asList(optional, optional1));
+
+        doReturn(optionalList).when(instructorRepo).findByName(any(), any());
+
+        Assertions.assertThrows(AlreadyExistsException.class, () -> {
+            instructorService.createInstructor(instructorDTO);
+        });
+    }
+
+    @Test
+    public void InstructorService_CreateInstructor_ThrowsRuntimeException1() {
+        doReturn(new ArrayList<>()).when(instructorRepo).findByName(any(), any());
+        doReturn(false).when(instructorValidation).isPhoneNumUnique(any());
+
+        Exception ex = Assertions.assertThrows(RuntimeException.class, () -> {
+            instructorService.createInstructor(instructorDTO);
+        });
+        Assertions.assertEquals("Invalid Phone Number", ex.getMessage());
+    }
+
+    @Test
+    public void InstructorService_CreateInstructor_ThrowsRuntimeException2() {
+        doReturn(new ArrayList<>()).when(instructorRepo).findByName(any(), any());
+        doReturn(true).when(instructorValidation).isPhoneNumUnique(any());
+        doReturn(false).when(instructorValidation).isEmailValid(any());
+
+        Exception ex = Assertions.assertThrows(RuntimeException.class, () -> {
+            instructorService.createInstructor(instructorDTO);
+        });
+        Assertions.assertEquals("Invalid Email", ex.getMessage());
     }
 
     @Test
@@ -84,12 +125,60 @@ public class InstructorServiceTests {
         InstructorDTO updatedInstDTO = new InstructorDTO(instructor.getId(), "Test", "Instructor2", "instructor@sample.com", "01234567890");
 
         doReturn(Optional.of(instructor)).when(instructorRepo).findById(any());
+        doReturn(true).when(instructorValidation).isPhoneNumUnique(any());
+        doReturn(true).when(instructorValidation).isEmailValid(any());
+        doReturn(true).when(instructorValidation).isYoutubeChannelPresent(any());
         doReturn(updatedInst).when(instructorRepo).save(Mockito.any(Instructor.class));
 
         InstructorDTO savedInstructorDTO = instructorService.updateInstructor(updatedInstDTO);
 
         Assertions.assertNotNull(savedInstructorDTO);
         Assertions.assertEquals(savedInstructorDTO.getFirstName() + savedInstructorDTO.getLastName(), updatedInstDTO.getFirstName() + updatedInstDTO.getLastName());
+    }
+
+    @Test
+    public void InstructorService_UpdateInstructor_ThrowsNotFoundException() {
+        doReturn(Optional.empty()).when(instructorRepo).findById(any());
+
+        Assertions.assertThrows(NotFoundException.class, () -> {
+            instructorService.updateInstructor(instructorDTO);
+        });
+    }
+
+    @Test
+    public void InstructorService_UpdateInstructor_ThrowsRuntimeException1() {
+        doReturn(Optional.of(instructor)).when(instructorRepo).findById(any());
+        doReturn(false).when(instructorValidation).isPhoneNumUnique(any());
+
+        Exception ex = Assertions.assertThrows(RuntimeException.class, () -> {
+            instructorService.updateInstructor(instructorDTO);
+        });
+        Assertions.assertEquals("Invalid Phone Number", ex.getMessage());
+    }
+
+    @Test
+    public void InstructorService_UpdateInstructor_ThrowsRuntimeException2() {
+        doReturn(Optional.of(instructor)).when(instructorRepo).findById(any());
+        doReturn(true).when(instructorValidation).isPhoneNumUnique(any());
+        doReturn(false).when(instructorValidation).isEmailValid(any());
+
+        Exception ex = Assertions.assertThrows(RuntimeException.class, () -> {
+            instructorService.updateInstructor(instructorDTO);
+        });
+        Assertions.assertEquals("Invalid Email", ex.getMessage());
+    }
+
+    @Test
+    public void InstructorService_UpdateInstructor_ThrowsRuntimeException3() {
+        doReturn(Optional.of(instructor)).when(instructorRepo).findById(any());
+        doReturn(true).when(instructorValidation).isPhoneNumUnique(any());
+        doReturn(true).when(instructorValidation).isEmailValid(any());
+        doReturn(false).when(instructorValidation).isYoutubeChannelPresent(any());
+
+        Exception ex = Assertions.assertThrows(RuntimeException.class, () -> {
+            instructorService.updateInstructor(instructorDTO);
+        });
+        Assertions.assertEquals("No Youtube Channel", ex.getMessage());
     }
 
     @Test
@@ -108,5 +197,47 @@ public class InstructorServiceTests {
         Assertions.assertThrows(NotFoundException.class, () -> {
             instructorService.deleteInstructor(instructorDTO.getId());
         });
+    }
+
+    @Test
+    public void InstructorService_isPhoneNumUnique_ReturnsTrue() {
+        doReturn(true).when(instructorValidation).isPhoneNumUnique(any());
+
+        Assertions.assertTrue(instructorService.isPhoneNumUnique(instructorDTO));
+    }
+
+    @Test
+    public void InstructorService_isPhoneNumUnique_ReturnsFalse() {
+        doReturn(false).when(instructorValidation).isPhoneNumUnique(any());
+
+        Assertions.assertFalse(instructorService.isPhoneNumUnique(instructorDTO));
+    }
+
+    @Test
+    public void InstructorService_isEmailValid_ReturnsTrue() {
+        doReturn(true).when(instructorValidation).isEmailValid(any());
+
+        Assertions.assertTrue(instructorService.isEmailValid("validemail@email.com"));
+    }
+
+    @Test
+    public void InstructorService_isEmailValid_ReturnsFalse() {
+        doReturn(false).when(instructorValidation).isEmailValid(any());
+
+        Assertions.assertFalse(instructorService.isEmailValid("1invalidemail@email.com"));
+    }
+
+    @Test
+    public void InstructorService_isYoutubeChannelPresent_ReturnsTrue() {
+        doReturn(true).when(instructorValidation).isYoutubeChannelPresent(any());
+
+        Assertions.assertTrue(instructorService.isYoutubeChannelPresent(instructorDTO));
+    }
+
+    @Test
+    public void InstructorService_isYoutubeChannelPresent_ReturnsFalse() {
+        doReturn(false).when(instructorValidation).isYoutubeChannelPresent(any());
+
+        Assertions.assertFalse(instructorService.isYoutubeChannelPresent(instructorDTO));
     }
 }
