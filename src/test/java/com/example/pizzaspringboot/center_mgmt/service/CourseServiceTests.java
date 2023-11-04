@@ -6,6 +6,7 @@ import com.example.pizzaspringboot.center_mgmt.entities.Course;
 import com.example.pizzaspringboot.center_mgmt.entities.Student;
 import com.example.pizzaspringboot.center_mgmt.enums.CourseLevel;
 import com.example.pizzaspringboot.center_mgmt.enums.Gender;
+import com.example.pizzaspringboot.center_mgmt.exception.AlreadyExistsException;
 import com.example.pizzaspringboot.center_mgmt.repository.CourseRepo;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -51,6 +52,16 @@ public class CourseServiceTests {
 //        verify(courseRepo, times(1)).save(course);
         Assertions.assertNotNull(savedCourse);
         Assertions.assertEquals(savedCourse.getId(), courseDTO.getId());
+    }
+
+    @Test
+    public void CourseService_CreateCourse_ThrowsAlreadyExistsException() {
+        doReturn(Optional.of(course)).when(courseRepo.findByName(any()));
+        doReturn(false).when(courseRepo.findByName(any())).isEmpty();
+
+        Assertions.assertThrows(AlreadyExistsException.class, () -> {
+            courseService.createCourse(courseDTO);
+        });
     }
 
     @Test
@@ -106,6 +117,6 @@ public class CourseServiceTests {
         Assertions.assertEquals(course.getStartDate(), list.get(0).getCourseDate());
         Assertions.assertEquals(course2.getStartDate(), list.get(1).getCourseDate());
         Assertions.assertEquals(student.getFirstName() + " " + student.getLastName(), list.get(0).getStudentNames().get(0));
-        Assertions.assertEquals(student2.getFirstName() + " " + student2.getLastName(), list.get(1).getStudentNames().get(1));
+        Assertions.assertEquals(student2.getFirstName() + " " + student2.getLastName(), list.get(0).getStudentNames().get(1));
     }
 }
