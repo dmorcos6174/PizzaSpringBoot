@@ -109,14 +109,17 @@ public class InstructorService {
     }
 
     protected boolean isPhoneNumUnique(InstructorDTO instructorDTO) {
+        System.out.println("isPhoneNumUnique");
         return instructorValidation.isPhoneNumUnique(instructorDTO);
     }
 
     protected boolean isEmailValid(String emailAddress) {
+        System.out.println("isEmailValid");
         return instructorValidation.isEmailValid(emailAddress);
     }
 
     protected boolean isYoutubeChannelPresent(InstructorDTO instructorDTO) {
+        System.out.println("isYoutubeChannelPresent");
         return instructorValidation.isYoutubeChannelPresent(instructorDTO);
     }
 }

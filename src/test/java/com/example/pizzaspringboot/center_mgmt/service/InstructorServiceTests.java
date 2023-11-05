@@ -13,14 +13,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.lang.reflect.Array;
 import java.util.*;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class InstructorServiceTests {
@@ -28,6 +28,7 @@ public class InstructorServiceTests {
     private InstructorRepo instructorRepo;
     @Mock
     private InstructorValidation instructorValidation;
+    @Spy
     @InjectMocks
     private InstructorService instructorService;
 
@@ -41,8 +42,10 @@ public class InstructorServiceTests {
     @Test
     public void InstructorService_CreateInstructor_ReturnsInstructorDTO() {
         doReturn(new ArrayList<>()).when(instructorRepo).findByName(any(), any());
-        doReturn(true).when(instructorValidation).isPhoneNumUnique(any());
-        doReturn(true).when(instructorValidation).isEmailValid(any());
+//        doReturn(true).when(instructorService).isPhoneNumUnique(any());
+//        doReturn(true).when(instructorService).isEmailValid(any());
+        when(instructorService.isPhoneNumUnique(any())).thenReturn(true);
+        when(instructorService.isEmailValid(any())).thenReturn(true);
         doReturn(instructor).when(instructorRepo).save(Mockito.any(Instructor.class));
 
         InstructorDTO savedInstructor = instructorService.createInstructor(instructorDTO);
@@ -125,9 +128,12 @@ public class InstructorServiceTests {
         InstructorDTO updatedInstDTO = new InstructorDTO(instructor.getId(), "Test", "Instructor2", "instructor@sample.com", "01234567890");
 
         doReturn(Optional.of(instructor)).when(instructorRepo).findById(any());
-        doReturn(true).when(instructorValidation).isPhoneNumUnique(any());
-        doReturn(true).when(instructorValidation).isEmailValid(any());
-        doReturn(true).when(instructorValidation).isYoutubeChannelPresent(any());
+//        doReturn(true).when(instructorService).isPhoneNumUnique(any());
+//        doReturn(true).when(instructorService).isEmailValid(any());
+//        doReturn(true).when(instructorService).isYoutubeChannelPresent(any());
+        when(instructorService.isPhoneNumUnique(any())).thenReturn(true);
+        when(instructorService.isEmailValid(any())).thenReturn(true);
+        when(instructorService.isYoutubeChannelPresent(any())).thenReturn(true);
         doReturn(updatedInst).when(instructorRepo).save(Mockito.any(Instructor.class));
 
         InstructorDTO savedInstructorDTO = instructorService.updateInstructor(updatedInstDTO);

@@ -10,6 +10,7 @@ import com.example.pizzaspringboot.center_mgmt.exception.AlreadyExistsException;
 import com.example.pizzaspringboot.center_mgmt.exception.NotFoundException;
 import com.example.pizzaspringboot.center_mgmt.repository.CourseRepo;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -33,15 +34,22 @@ public class CourseServiceTests {
     @InjectMocks
     private CourseService courseService;
 
-    private final Student student = new Student(UUID.randomUUID(), "Test", "Student", 18, Gender.MALE, "student@sample.com", "01234567890", 30000000000000L, null);
-    private final Student student2 = new Student(UUID.randomUUID(), "Test2", "Student2", 18, Gender.MALE, "student@sample.com", "01234567890", 30000000000000L, null);
-    private final Set<Student> studentSet = Stream.of(student2, student).collect(Collectors.toSet());
+    private static final Student student = new Student(UUID.randomUUID(), "Test", "Student", 18, Gender.MALE, "student@sample.com", "01234567890", 30000000000000L, null);
+    private static final Student student2 = new Student(UUID.randomUUID(), "Test2", "Student2", 18, Gender.MALE, "student@sample.com", "01234567890", 30000000000000L, null);
+//    private final Set<Student> studentSet = Stream.of(student2, student).collect(Collectors.toSet());
+    private static final Set<Student> studentSet = new HashSet<>();
     private final Course course = new Course(UUID.randomUUID(), "Test Course", LocalDateTime.of(2023, 9, 26, 0, 0, 0), LocalDateTime.of(2023, 11, 26, 0, 0, 0), CourseLevel.Beginner, true, null, studentSet);
     private final CourseDTO courseDTO = new CourseDTO(course.getId(), "Test Course", course.getStartDate(), course.getEndDate(), CourseLevel.Beginner, true);
     private final Course course2 = new Course(UUID.randomUUID(), "Test Course2", course.getStartDate(), course.getEndDate(), CourseLevel.Middle, true, null, studentSet);
     private final CourseDTO courseDTO2 = new CourseDTO(course2.getId(), "Test Course2", course.getStartDate(), course.getEndDate(), CourseLevel.Middle, true);
     private final List<Course> courseList = new ArrayList<>(Arrays.asList(course, course2));
     private final List<CourseDTO> courseDTOList = new ArrayList<>(Arrays.asList(courseDTO, courseDTO2));
+
+    @BeforeAll
+    public static void setUp() {
+        studentSet.add(student);
+        studentSet.add(student2);
+    }
 
     @Test
     public void CourseService_CreateCourse_ReturnsCourseDTO() {
