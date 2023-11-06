@@ -1,6 +1,6 @@
 package com.example.pizzaspringboot.center_mgmt.dto;
 
-import com.example.pizzaspringboot.center_mgmt.entities.Course;
+import com.example.pizzaspringboot.center_mgmt.entity.Course;
 import lombok.*;
 
 import java.util.List;

@@ -2,8 +2,8 @@ package com.example.pizzaspringboot.center_mgmt.service;
 
 import com.example.pizzaspringboot.center_mgmt.dto.CourseDTO;
 import com.example.pizzaspringboot.center_mgmt.dto.CourseNameStartDateAndStudents;
-import com.example.pizzaspringboot.center_mgmt.entities.Course;
-import com.example.pizzaspringboot.center_mgmt.entities.Student;
+import com.example.pizzaspringboot.center_mgmt.entity.Course;
+import com.example.pizzaspringboot.center_mgmt.entity.Student;
 import com.example.pizzaspringboot.center_mgmt.enums.CourseLevel;
 import com.example.pizzaspringboot.center_mgmt.enums.Gender;
 import com.example.pizzaspringboot.center_mgmt.exception.AlreadyExistsException;
@@ -17,12 +17,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.util.Assert;
 
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static org.mockito.Mockito.*;
 

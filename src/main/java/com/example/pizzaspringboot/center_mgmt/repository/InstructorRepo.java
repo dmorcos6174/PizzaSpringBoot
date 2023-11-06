@@ -1,6 +1,6 @@
 package com.example.pizzaspringboot.center_mgmt.repository;
 
-import com.example.pizzaspringboot.center_mgmt.entities.Instructor;
+import com.example.pizzaspringboot.center_mgmt.entity.Instructor;
 import jakarta.persistence.Tuple;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

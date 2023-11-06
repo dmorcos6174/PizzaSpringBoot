@@ -4,10 +4,10 @@ import com.example.pizzaspringboot.center_mgmt.dto.CourseDTO;
 import com.example.pizzaspringboot.center_mgmt.dto.InstructorDTO;
 import com.example.pizzaspringboot.center_mgmt.dto.InstructorDetailsDTO;
 import com.example.pizzaspringboot.center_mgmt.dto.StudentDTO;
-import com.example.pizzaspringboot.center_mgmt.entities.Course;
-import com.example.pizzaspringboot.center_mgmt.entities.Instructor;
-import com.example.pizzaspringboot.center_mgmt.entities.InstructorDetails;
-import com.example.pizzaspringboot.center_mgmt.entities.Student;
+import com.example.pizzaspringboot.center_mgmt.entity.Course;
+import com.example.pizzaspringboot.center_mgmt.entity.Instructor;
+import com.example.pizzaspringboot.center_mgmt.entity.InstructorDetails;
+import com.example.pizzaspringboot.center_mgmt.entity.Student;
 
 public class EntityMapper {
 

@@ -1,8 +1,7 @@
 package com.example.pizzaspringboot.center_mgmt.service;
 
 import com.example.pizzaspringboot.center_mgmt.dto.InstructorDetailsDTO;
-import com.example.pizzaspringboot.center_mgmt.entities.Instructor;
-import com.example.pizzaspringboot.center_mgmt.entities.InstructorDetails;
+import com.example.pizzaspringboot.center_mgmt.entity.InstructorDetails;
 import com.example.pizzaspringboot.center_mgmt.exception.NotFoundException;
 import com.example.pizzaspringboot.center_mgmt.repository.InstructorDetailsRepo;
 import org.springframework.stereotype.Service;

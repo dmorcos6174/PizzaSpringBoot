@@ -1,8 +1,7 @@
 package com.example.pizzaspringboot.center_mgmt.service;
 
 import com.example.pizzaspringboot.center_mgmt.dto.StudentDTO;
-import com.example.pizzaspringboot.center_mgmt.entities.Instructor;
-import com.example.pizzaspringboot.center_mgmt.entities.Student;
+import com.example.pizzaspringboot.center_mgmt.entity.Student;
 import com.example.pizzaspringboot.center_mgmt.enums.Gender;
 import com.example.pizzaspringboot.center_mgmt.repository.StudentRepo;
 import org.junit.jupiter.api.Assertions;

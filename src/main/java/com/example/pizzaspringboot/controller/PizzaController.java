@@ -1,6 +1,6 @@
 package com.example.pizzaspringboot.controller;
 
-import com.example.pizzaspringboot.dto.Pizza;
+import com.example.pizzaspringboot.entity.Pizza;
 import com.example.pizzaspringboot.exception.PizzaAlreadyExistsException;
 import com.example.pizzaspringboot.exception.PizzaNotFoundException;
 import com.example.pizzaspringboot.service.PizzaService;

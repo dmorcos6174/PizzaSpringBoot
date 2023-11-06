@@ -1,12 +1,9 @@
 package com.example.pizzaspringboot.center_mgmt.dto;
 
-import com.example.pizzaspringboot.center_mgmt.entities.Student;
 import com.example.pizzaspringboot.center_mgmt.enums.CourseLevel;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.Set;
 import java.util.UUID;
 
 @NoArgsConstructor

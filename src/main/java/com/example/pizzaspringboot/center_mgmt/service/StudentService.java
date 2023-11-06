@@ -2,7 +2,7 @@ package com.example.pizzaspringboot.center_mgmt.service;
 
 import com.example.pizzaspringboot.center_mgmt.dto.StudentDTO;
 import com.example.pizzaspringboot.center_mgmt.dto.StudentName;
-import com.example.pizzaspringboot.center_mgmt.entities.Student;
+import com.example.pizzaspringboot.center_mgmt.entity.Student;
 import com.example.pizzaspringboot.center_mgmt.exception.AlreadyExistsException;
 import com.example.pizzaspringboot.center_mgmt.exception.NotFoundException;
 import com.example.pizzaspringboot.center_mgmt.repository.StudentRepo;

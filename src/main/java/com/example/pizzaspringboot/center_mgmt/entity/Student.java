@@ -1,4 +1,4 @@
-package com.example.pizzaspringboot.center_mgmt.entities;
+package com.example.pizzaspringboot.center_mgmt.entity;
 
 import com.example.pizzaspringboot.center_mgmt.enums.Gender;
 import com.fasterxml.jackson.annotation.JsonBackReference;

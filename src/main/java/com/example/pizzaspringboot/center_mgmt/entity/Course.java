@@ -1,4 +1,4 @@
-package com.example.pizzaspringboot.center_mgmt.entities;
+package com.example.pizzaspringboot.center_mgmt.entity;
 
 import com.example.pizzaspringboot.center_mgmt.enums.CourseLevel;
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -6,7 +6,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.Set;
 import java.util.UUID;
 

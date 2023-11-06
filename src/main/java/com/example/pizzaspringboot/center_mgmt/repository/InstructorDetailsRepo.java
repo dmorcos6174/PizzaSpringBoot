@@ -1,6 +1,6 @@
 package com.example.pizzaspringboot.center_mgmt.repository;
 
-import com.example.pizzaspringboot.center_mgmt.entities.InstructorDetails;
+import com.example.pizzaspringboot.center_mgmt.entity.InstructorDetails;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

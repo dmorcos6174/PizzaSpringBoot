@@ -1,6 +1,6 @@
 package com.example.pizzaspringboot.service;
 
-import com.example.pizzaspringboot.dto.Pizza;
+import com.example.pizzaspringboot.entity.Pizza;
 import com.example.pizzaspringboot.exception.PizzaAlreadyExistsException;
 import com.example.pizzaspringboot.exception.PizzaNotFoundException;
 import org.springframework.stereotype.Service;
@@ -13,7 +13,7 @@ import java.util.Optional;
 @Service
 public class PizzaService {
 
-    private List<Pizza> pizzas = new ArrayList<>(Arrays.asList(
+    private final List<Pizza> pizzas = new ArrayList<>(Arrays.asList(
             new Pizza("0", "Chicken Ranch"),
             new Pizza("1", "Chicken BBQ")
     ));

@@ -3,7 +3,7 @@ package com.example.pizzaspringboot.center_mgmt.service;
 import com.example.pizzaspringboot.center_mgmt.dto.InstructorDTO;
 import com.example.pizzaspringboot.center_mgmt.dto.InstructorAndCourses;
 import com.example.pizzaspringboot.center_mgmt.dto.InstructorAndStudents;
-import com.example.pizzaspringboot.center_mgmt.entities.Instructor;
+import com.example.pizzaspringboot.center_mgmt.entity.Instructor;
 import com.example.pizzaspringboot.center_mgmt.exception.AlreadyExistsException;
 import com.example.pizzaspringboot.center_mgmt.exception.NotFoundException;
 import com.example.pizzaspringboot.center_mgmt.repository.InstructorRepo;

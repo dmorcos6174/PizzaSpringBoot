@@ -1,13 +1,12 @@
 package com.example.pizzaspringboot.center_mgmt.service;
 
 import com.example.pizzaspringboot.center_mgmt.dto.InstructorDTO;
-import com.example.pizzaspringboot.center_mgmt.entities.Instructor;
-import com.example.pizzaspringboot.center_mgmt.entities.InstructorDetails;
+import com.example.pizzaspringboot.center_mgmt.entity.Instructor;
+import com.example.pizzaspringboot.center_mgmt.entity.InstructorDetails;
 import com.example.pizzaspringboot.center_mgmt.repository.InstructorRepo;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.regex.Pattern;
 
 @Service
