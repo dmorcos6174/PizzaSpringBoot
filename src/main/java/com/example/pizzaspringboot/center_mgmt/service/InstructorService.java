@@ -1,5 +1,6 @@
 package com.example.pizzaspringboot.center_mgmt.service;
 
+import com.example.pizzaspringboot.caching.RedisService;
 import com.example.pizzaspringboot.center_mgmt.dto.InstructorDTO;
 import com.example.pizzaspringboot.center_mgmt.dto.InstructorAndCourses;
 import com.example.pizzaspringboot.center_mgmt.dto.InstructorAndStudents;
@@ -8,6 +9,8 @@ import com.example.pizzaspringboot.center_mgmt.exception.AlreadyExistsException;
 import com.example.pizzaspringboot.center_mgmt.exception.NotFoundException;
 import com.example.pizzaspringboot.center_mgmt.repository.InstructorRepo;
 import jakarta.persistence.Tuple;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -21,13 +24,18 @@ import static com.example.pizzaspringboot.center_mgmt.mapper.EntityMapper.mapIns
 @Service
 public class InstructorService {
 
+    Logger logger = LoggerFactory.getLogger(InstructorService.class);
+
     private final InstructorRepo instructorRepo;
 
     private final InstructorValidation instructorValidation;
 
-    public InstructorService(InstructorRepo instructorRepo, InstructorValidation instructorValidation) {
+    private final RedisService redisService;
+
+    public InstructorService(InstructorRepo instructorRepo, InstructorValidation instructorValidation, RedisService redisService) {
         this.instructorRepo = instructorRepo;
         this.instructorValidation = instructorValidation;
+        this.redisService = redisService;
     }
 
     // Create
@@ -45,11 +53,21 @@ public class InstructorService {
 
     // Read
     public InstructorDTO getInstructorById(UUID id) throws NotFoundException {
-        Optional<Instructor> instructorOptional = instructorRepo.findById(id);
-        if (instructorOptional.isEmpty()) {
-            throw new NotFoundException("No Instructor with such id exists");
+        var cachedInstructor = redisService.getValueFromRedis(id.toString());
+        if (cachedInstructor.isPresent()) {
+            logger.info("Cache HIT");
+            return mapInstructorToDTO((Instructor) cachedInstructor.get());
         }
-        return mapInstructorToDTO(instructorOptional.get());
+        else {
+            Optional<Instructor> instructorOptional = instructorRepo.findById(id);
+            if (instructorOptional.isEmpty()) {
+                throw new NotFoundException("No Instructor with such id exists");
+            }
+            redisService.setValueInRedis(id.toString(), instructorOptional.get());
+            logger.info("Cache MISS");
+            return mapInstructorToDTO(instructorOptional.get());
+        }
+
     }
 
     public List<InstructorDTO> getAllInstructor() {
@@ -74,6 +92,9 @@ public class InstructorService {
         if (!isYoutubeChannelPresent(instructorDTO))
             throw new RuntimeException("No Youtube Channel");
         Instructor updatedInstructor = instructorRepo.save(mapDTOToInstructor(instructorDTO));
+
+        redisService.setValueInRedis(updatedInstructor.getId().toString(), updatedInstructor);
+
         return mapInstructorToDTO(updatedInstructor);
     }
 
@@ -84,6 +105,9 @@ public class InstructorService {
             throw new NotFoundException("No Instructor with such id exists");
         }
         instructorRepo.deleteById(id);
+
+        redisService.deleteKey(id.toString());
+
         return !instructorRepo.existsById(id);
     }
 
