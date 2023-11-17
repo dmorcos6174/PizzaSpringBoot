@@ -6,6 +6,9 @@ import com.example.pizzaspringboot.exception.PizzaNotFoundException;
 import com.example.pizzaspringboot.service.PizzaService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
@@ -15,8 +18,14 @@ public class PizzaController {
 
     private final PizzaService pizzaService;
 
-    public PizzaController(PizzaService pizzaService) {
+    private final RestTemplate restTemplate;
+
+    private final WebClient.Builder webClientBuilder;
+
+    public PizzaController(PizzaService pizzaService, RestTemplate restTemplate, WebClient.Builder webClientBuilder) {
         this.pizzaService = pizzaService;
+        this.restTemplate = restTemplate;
+        this.webClientBuilder = webClientBuilder;
     }
 
     @GetMapping("/pizzas")
@@ -44,5 +53,17 @@ public class PizzaController {
     @DeleteMapping("/pizzas/{id}")
     public void deletePizza(@PathVariable String id) throws PizzaNotFoundException {
         pizzaService.deletePizza(id);
+    }
+
+    ////////////////////////////////////////////////////////////
+
+    @GetMapping("/sayHello")
+    public Mono<String> getSayHello() {
+//        return restTemplate.getForObject("http://helloworld/helloworld/hello/sayHello", String.class);
+        return webClientBuilder.build()
+                .get()
+                .uri("http://helloworld/helloworld/hello/sayHello")
+                .retrieve()
+                .bodyToMono(String.class);
     }
 }
