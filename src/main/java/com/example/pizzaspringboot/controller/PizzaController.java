@@ -3,12 +3,12 @@ package com.example.pizzaspringboot.controller;
 import com.example.pizzaspringboot.entity.Pizza;
 import com.example.pizzaspringboot.exception.PizzaAlreadyExistsException;
 import com.example.pizzaspringboot.exception.PizzaNotFoundException;
+import com.example.pizzaspringboot.feign.HelloWorldInterface;
 import com.example.pizzaspringboot.service.PizzaService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
 
 import java.util.List;
 
@@ -22,10 +22,13 @@ public class PizzaController {
 
     private final WebClient.Builder webClientBuilder;
 
-    public PizzaController(PizzaService pizzaService, RestTemplate restTemplate, WebClient.Builder webClientBuilder) {
+    private final HelloWorldInterface helloWorldInterface;
+
+    public PizzaController(PizzaService pizzaService, RestTemplate restTemplate, WebClient.Builder webClientBuilder, HelloWorldInterface helloWorldInterface) {
         this.pizzaService = pizzaService;
         this.restTemplate = restTemplate;
         this.webClientBuilder = webClientBuilder;
+        this.helloWorldInterface = helloWorldInterface;
     }
 
     @GetMapping("/pizzas")
@@ -58,12 +61,15 @@ public class PizzaController {
     ////////////////////////////////////////////////////////////
 
     @GetMapping("/sayHello")
-    public Mono<String> getSayHello() {
+    public String getSayHello() {
 //        return restTemplate.getForObject("http://helloworld/helloworld/hello/sayHello", String.class);
-        return webClientBuilder.build()
-                .get()
-                .uri("http://helloworld/helloworld/hello/sayHello")
-                .retrieve()
-                .bodyToMono(String.class);
+
+//        return webClientBuilder.build()
+//                .get()
+//                .uri("http://helloworld/helloworld/hello/sayHello")
+//                .retrieve()
+//                .bodyToMono(String.class);
+
+        return helloWorldInterface.sayHello();
     }
 }
